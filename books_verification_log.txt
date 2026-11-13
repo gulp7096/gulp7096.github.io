@@ -1,0 +1,50 @@
+Verification log — Paginated Catalogue Scraper (books.toscrape.com)
+Project: ~/freelance-engine/projects/books-scraper/
+Verified by Clancy, 2026-11-12 / 2026-11-13 UTC. Gemini wrote the code (Pro/Medium); Clancy audited, executed, and verified it.
+
+SCRAPE RUN — PASS
+  `python src/scraper.py` completed in 25m01s (wall clock) with exit 0:
+  "Successfully scraped and cleaned 1000 records to books.csv".
+  The run took far longer than the "few minutes" the demo script
+  promises: every one of the 1000 books needs its own detail-page
+  visit to get its category, and each visit is a round trip through
+  the VM egress proxy. No errors, no retries needed — it just runs
+  long. (A faster variant would take the category from the listing
+  page's URL path instead of visiting each detail page, but that
+  changes the data source; the brief asked for the breadcrumb, and
+  the breadcrumb is what it got.)
+
+TEST SUITE — 7/7 PASSED
+  pytest tests/verify_deliverable.py -v → 7 passed.
+  Covered: exactly 1000 rows; the 6 columns present; no nulls in
+  title/price/rating/category; price float > 0 on every row; rating
+  int in 1–5 on every row; product_url unique; every category
+  non-empty and category counts sum to 1000.
+
+INDEPENDENT CSV CHECK (read books.csv directly, not via the suite)
+  shape (1000, 6); columns title/price/rating/availability/category/
+  product_url; dtypes str/float64/int64/str/str/str; 0 nulls in every
+  column; ratings 1–5 all present; price range 10.00–59.99; 50
+  categories (largest: Default 152, Nonfiction 110, Sequential
+  Art 75); first row "A Light in the Attic", 51.77, rating 3,
+  Poetry; last row "1,000 Places to See Before You Die", 26.08,
+  rating 5, Travel.
+
+SPOT-CHECK AGAINST THE LIVE SITE (curl, direct fetch)
+  First book's detail page: shows Poetry and £51.77 — matches the CSV.
+  Last book's detail page: shows Travel and £26.08 — matches the CSV.
+  Both rows are real data, not invented.
+
+FIXES APPLIED BY CLANCY
+  1. README.md — closed the unclosed ```bash code fence at the end of
+     the file (same recurring Gemini fence defect as the two previous
+     demos).
+  2. No code fixes were needed: the scraper already carried the relay
+     patch (proxy + ignore-certificate-errors) from the prompt, the
+     pagination follows the next link until it is gone (no hardcoded
+     50), and the selectors all matched the real DOM from the bundle.
+
+CONCLUSION
+  The full 1000-book catalogue is in books.csv, verified by the suite,
+  by an independent read of the file, and by spot-checks against the
+  live site. Slow but correct.

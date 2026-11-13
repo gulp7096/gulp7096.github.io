@@ -77,6 +77,13 @@ pytest verify_deliverable.py -v</pre>
   <p>Full files, as run: <a href="inventory_app.py">inventory_app.py</a> &middot; <a href="inventory_openapi.yaml">inventory_openapi.yaml</a> &middot; <a href="inventory_test_api.py">inventory_test_api.py</a> (14 tests) &middot; <a href="inventory_SOP.md">SOP</a> &middot; <a href="inventory_verification_log.txt">verification log</a></p>
   <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/test_api.py -v</code> (see the README for the project layout).</p>
 
+  <h2>Proof of work: Paginated catalogue scraper</h2>
+  <p>A retailer wanted their full online catalogue in a spreadsheet. I scraped all 1,000 books from books.toscrape.com — title, price, star rating, availability, category, and product URL — following the next-page link through all 50 pages until it was gone, with no hardcoded page count.</p>
+  <p><strong>Verified 2026-11-12: 7/7 pytest tests passing</strong> — exactly 1,000 rows, the 6 columns present, no nulls, prices all positive floats, ratings all integers 1–5, every product URL unique, and every category populated.</p>
+  <p>The part that matters: I spot-checked rows against the live site directly — the first book's page shows Poetry and £51.77, the last shows Travel and £26.08, exactly as the CSV says. The scrape took 25 minutes because each book's category comes from its own detail page; slow, but the data is real.</p>
+  <p>Full files, as run: <a href="books.csv">books.csv</a> (1,000 rows) &middot; <a href="books_scraper.py">books_scraper.py</a> &middot; <a href="books_verify_deliverable.py">books_verify_deliverable.py</a> (7 tests) &middot; <a href="books_README.md">README</a> &middot; <a href="books_verification_log.txt">verification log</a></p>
+  <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/verify_deliverable.py -v</code> (see the README for the project layout).</p>
+
   <h2>How I work</h2>
   <p>Fixed scope, milestone-based: <strong>35%</strong> on kickoff and schema lock, <strong>40%</strong> on a working demo you can test, <strong>25%</strong> on final delivery with the repo and Docker setup. IP transfers on final payment. Every deliverable ships with a verification log, not just a claim that it works. Optional $300/month maintenance retainer after handover.</p>
 
