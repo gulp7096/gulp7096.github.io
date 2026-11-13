@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>James — Python Developer | Web Scraping, API Automation &amp; QA</title>
+<meta name="description" content="Python automation that holds up in production: Playwright scraping & data QA, API & webhook middleware, OpenAPI docs & QA automation. Aurora / Denver, Colorado.">
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;margin:0;color:#1a1a1a;background:#fafafa}
+  main{max-width:760px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:2rem;margin:.2em 0 .1em} h2{margin-top:2.2em;border-top:1px solid #ddd;padding-top:1em}
+  .tag{color:#555} .pill{display:inline-block;background:#eef;border:1px solid #ccd;border-radius:999px;padding:2px 10px;margin:2px;font-size:.85em}
+  .card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px 20px;margin:14px 0}
+  table{border-collapse:collapse;width:100%;font-size:.9em} th,td{border-bottom:1px solid #e5e5e5;text-align:left;padding:6px 8px;vertical-align:top}
+  code{background:#f0f0f0;padding:1px 5px;border-radius:4px} pre{background:#111;color:#eee;padding:14px;border-radius:8px;overflow:auto;font-size:.85em}
+  a{color:#0b5fff} footer{color:#666;font-size:.9em;margin-top:3em}
+</style>
+</head>
+<body>
+<main>
+  <p class="tag">Aurora / Denver, Colorado &middot; $40/hr &middot; Fixed-price and hourly contracts</p>
+  <h1>James</h1>
+  <p><strong>Python Developer | Web Scraping, API Automation &amp; QA</strong></p>
+  <p>I build Python automation that holds up in production — scrapers, API integrations, and QA suites, delivered with tests that prove they work. My focus is replacing fragile manual work and no-code workarounds with clean, documented Python.</p>
+  <p>
+    <a href="https://github.com/gulp7096">GitHub: gulp7096</a> &middot;
+    Upwork: “Python Developer | Web Scraping, API Automation &amp; QA”
+  </p>
+
+  <h2>What I do</h2>
+  <div class="card">
+    <h3>Web scraping &amp; data QA</h3>
+    <p>Playwright scrapers for JavaScript-heavy and legacy sites, Pandas cleaning and strict type enforcement, deduplication, and pytest suites that validate every column. Selectors are verified against the live DOM, not from memory.</p>
+  </div>
+  <div class="card">
+    <h3>API &amp; webhook middleware</h3>
+    <p>Replacing Zapier/Make with FastAPI microservices: custom integrations, webhook handlers, and data sync between the tools a business already runs.</p>
+  </div>
+  <div class="card">
+    <h3>OpenAPI docs, QA automation &amp; SOPs</h3>
+    <p>OpenAPI 3.1 specs, Playwright/Pytest regression suites, and written SOPs so the system keeps working after handover.</p>
+  </div>
+
+  <h2>Skills</h2>
+  <p>
+    <span class="pill">Python</span><span class="pill">Playwright</span><span class="pill">FastAPI</span><span class="pill">Pandas</span><span class="pill">Pytest</span><span class="pill">Web Scraping</span><span class="pill">Data Extraction</span><span class="pill">API Integration</span><span class="pill">Webhooks</span><span class="pill">OpenAPI</span><span class="pill">Docker</span><span class="pill">PostgreSQL</span><span class="pill">Data Cleaning</span><span class="pill">ETL</span><span class="pill">QA Automation</span>
+  </p>
+
+  <h2>Proof of work: Hacker News front-page pipeline</h2>
+  <p>Headless Playwright extraction of the live Hacker News top 30 — rank, title, domain, points, submitter, and comment count — by pairing title rows and detail rows in the DOM without fragile XPaths. Pandas enforces strict types before exporting <code>hn_top30.csv</code>, ready to load into PostgreSQL.</p>
+  <p><strong>Verified 2026-11-12: 6/6 pytest tests passing</strong> — exactly 30 rows, no nulls or blanks in rank/title, integer types for rank/points/comment count, submitter populated on every row, and no empty values except domain (Ask HN / text posts legitimately have none).</p>
+  <p>The part that matters: independent verification caught a defect the first test suite missed — the original submitter selector relied on a CSS class (<code>.hnuser</code>) no longer present on live Hacker News, leaving the submitter column empty. I fixed it with a structural attribute selector (<code>a[href^="user?id="]</code>) and added tests so that failure cannot pass silently again.</p>
+  <table>
+    <tr><th>Rank</th><th>Title</th><th>Domain</th><th>Points</th><th>Submitter</th><th>Comments</th></tr>
+    <tr><td>1</td><td>Jensen Huang resigns</td><td>apnews.com</td><td>1859</td><td>lldb</td><td>1879</td></tr>
+    <tr><td>2</td><td>Rust 1.100.0</td><td>github.com/rust-lang</td><td>107</td><td>thesuperbigfrog</td><td>15</td></tr>
+    <tr><td>3</td><td>Gemini 4 Hydrogen</td><td>blog.google</td><td>184</td><td>dvaplima</td><td>109</td></tr>
+    <tr><td>4</td><td>Ask HN: Microsoft/Azure Outage?</td><td>—</td><td>99</td><td>nazgulsenpai</td><td>32</td></tr>
+    <tr><td>5</td><td>Abandoned Quake 4 expansion finished by modders and now playable</td><td>moddb.com</td><td>165</td><td>klaussilveira</td><td>60</td></tr>
+  </table>
+  <p>Full files, as run: <a href="hn_top30.csv">hn_top30.csv</a> (30 rows) &middot; <a href="scraper.py">scraper.py</a> &middot; <a href="verify_deliverable.py">verify_deliverable.py</a> (6 tests) &middot; <a href="Proposal-HN-Frontpage-QA.md">client proposal</a></p>
+  <p>Run it yourself:</p>
+  <pre>python scraper.py
+pytest verify_deliverable.py -v</pre>
+
+  <h2>How I work</h2>
+  <p>Fixed scope, milestone-based: <strong>35%</strong> on kickoff and schema lock, <strong>40%</strong> on a working demo you can test, <strong>25%</strong> on final delivery with the repo and Docker setup. IP transfers on final payment. Every deliverable ships with a verification log, not just a claim that it works. Optional $300/month maintenance retainer after handover.</p>
+
+  <h2>Contact</h2>
+  <p>Reach me through my Upwork profile, or on GitHub at <a href="https://github.com/gulp7096">gulp7096</a>. Tell me what your pipeline or integration needs to do and I&rsquo;ll tell you honestly whether I can build it.</p>
+
+  <footer>Built with the Muse Freelance Engine — Muse (local execution &amp; verification) + Gemini Pro (code synthesis). No invented clients, employers, or degrees on this page.</footer>
+</main>
+</body>
+</html>
