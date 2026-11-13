@@ -1,0 +1,280 @@
+openapi: 3.1.0
+info:
+  title: Inventory API
+  version: 1.0.0
+paths:
+  /health:
+    get:
+      summary: Health Check
+      operationId: health_health_get
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema: {}
+  /products:
+    get:
+      summary: List Products
+      operationId: list_products_products_get
+      parameters:
+        - name: category
+          in: query
+          required: false
+          schema:
+            type: string
+            title: Category
+        - name: in_stock_only
+          in: query
+          required: false
+          schema:
+            type: boolean
+            default: false
+            title: In Stock Only
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ProductOut'
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    post:
+      summary: Create Product
+      operationId: create_product_products_post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductOut'
+        '409':
+          description: Conflict
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+  /products/{sku}:
+    get:
+      summary: Get Product
+      operationId: get_product_products__sku__get
+      parameters:
+        - name: sku
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Sku
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductOut'
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    put:
+      summary: Update Product
+      operationId: update_product_products__sku__put
+      parameters:
+        - name: sku
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Sku
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProductUpdate'
+      responses:
+        '200':
+          description: Successful Response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProductOut'
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+    delete:
+      summary: Delete Product
+      operationId: delete_product_products__sku__delete
+      parameters:
+        - name: sku
+          in: path
+          required: true
+          schema:
+            type: string
+            title: Sku
+      responses:
+        '204':
+          description: Successful Response
+        '404':
+          description: Not Found
+        '422':
+          description: Validation Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HTTPValidationError'
+components:
+  schemas:
+    ProductCreate:
+      type: object
+      properties:
+        sku:
+          type: string
+          pattern: ^[A-Z0-9-]{3,20}$
+          description: Unique product SKU
+          title: Sku
+        name:
+          type: string
+          minLength: 1
+          description: Product name
+          title: Name
+        price:
+          type: number
+          exclusiveMinimum: 0.0
+          description: Price must be greater than 0
+          title: Price
+        quantity:
+          type: integer
+          minimum: 0
+          description: Quantity cannot be negative
+          title: Quantity
+        category:
+          type: string
+          default: general
+          description: Product category
+          title: Category
+      required:
+        - sku
+        - name
+        - price
+        - quantity
+      title: ProductCreate
+    ProductOut:
+      type: object
+      properties:
+        sku:
+          type: string
+          pattern: ^[A-Z0-9-]{3,20}$
+          description: Unique product SKU
+          title: Sku
+        name:
+          type: string
+          minLength: 1
+          description: Product name
+          title: Name
+        price:
+          type: number
+          exclusiveMinimum: 0.0
+          description: Price must be greater than 0
+          title: Price
+        quantity:
+          type: integer
+          minimum: 0
+          description: Quantity cannot be negative
+          title: Quantity
+        category:
+          type: string
+          default: general
+          description: Product category
+          title: Category
+      required:
+        - sku
+        - name
+        - price
+        - quantity
+      title: ProductOut
+    ProductUpdate:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+          title: Name
+        price:
+          type: number
+          exclusiveMinimum: 0.0
+          title: Price
+        quantity:
+          type: integer
+          minimum: 0
+          title: Quantity
+        category:
+          type: string
+          default: general
+          title: Category
+      required:
+        - name
+        - price
+        - quantity
+      title: ProductUpdate
+
+    HTTPValidationError:
+      properties:
+        detail:
+          items:
+            $ref: '#/components/schemas/ValidationError'
+          type: array
+          title: Detail
+      type: object
+      title: HTTPValidationError
+    ValidationError:
+      properties:
+        loc:
+          items:
+            anyOf:
+            - type: string
+            - type: integer
+          type: array
+          title: Location
+        msg:
+          type: string
+          title: Message
+        type:
+          type: string
+          title: Error Type
+        input:
+          title: Input
+        ctx:
+          type: object
+          title: Context
+      type: object
+      required:
+      - loc
+      - msg
+      - type
+      title: ValidationError

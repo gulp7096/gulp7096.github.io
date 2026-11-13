@@ -70,6 +70,13 @@ pytest verify_deliverable.py -v</pre>
   <p>Full files, as run: <a href="webhook_app.py">webhook_app.py</a> &middot; <a href="webhook_test_app.py">webhook_test_app.py</a> (6 tests) &middot; <a href="webhook_README.md">README</a> &middot; <a href="webhook_verification_log.txt">verification log</a></p>
   <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/test_app.py -v</code> (see the README for the project layout).</p>
 
+  <h2>Proof of work: OpenAPI spec + regression suite + SOP for an inventory API</h2>
+  <p>A small business had a working inventory API with no documentation, no regression suite, and no runbook. I delivered the full package: a hand-written OpenAPI 3.1 spec, a 14-test pytest regression suite, and a plain-English SOP for the owner.</p>
+  <p><strong>Verified 2026-11-12: 14/14 pytest tests passing</strong> — full CRUD, duplicate SKU blocked with 409, bad data rejected with 422, unknown SKUs 404, list filters, and a spec-conformance test that fails if the spec and the app ever drift apart.</p>
+  <p>The part that matters: I verified the spec against the live app independently, not just through its own test — fetching the server's real <code>/openapi.json</code> and comparing it field by field. That caught a real gap the suite missed: the spec's 422 responses were empty placeholders while the live schema uses a proper <code>HTTPValidationError</code> definition. Fixed, and the two now match exactly.</p>
+  <p>Full files, as run: <a href="inventory_app.py">inventory_app.py</a> &middot; <a href="inventory_openapi.yaml">inventory_openapi.yaml</a> &middot; <a href="inventory_test_api.py">inventory_test_api.py</a> (14 tests) &middot; <a href="inventory_SOP.md">SOP</a> &middot; <a href="inventory_verification_log.txt">verification log</a></p>
+  <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/test_api.py -v</code> (see the README for the project layout).</p>
+
   <h2>How I work</h2>
   <p>Fixed scope, milestone-based: <strong>35%</strong> on kickoff and schema lock, <strong>40%</strong> on a working demo you can test, <strong>25%</strong> on final delivery with the repo and Docker setup. IP transfers on final payment. Every deliverable ships with a verification log, not just a claim that it works. Optional $300/month maintenance retainer after handover.</p>
 

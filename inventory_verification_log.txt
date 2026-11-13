@@ -1,0 +1,60 @@
+Verification log — OpenAPI 3.1 Spec + Regression Suite + SOP (Inventory API)
+Project: ~/freelance-engine/projects/openapi-inventory-qa/
+Verified by Clancy, 2026-11-12 / 2026-11-13 UTC. Gemini wrote the code (Pro/Medium); Clancy audited, fixed, executed, and verified it.
+
+TEST SUITE — 14/14 PASSED
+  pytest tests/test_api.py -v → 14 passed (1 warning: Starlette TestClient
+  deprecation notice about httpx — cosmetic, not a failure).
+  Covered: create → 201 with all fields echoed; duplicate SKU → 409;
+  bad SKU pattern → 422; negative price → 422; negative quantity → 422;
+  get one → 200; get unknown → 404; list + category filter +
+  in_stock_only filter; update → 200 with new values; update unknown →
+  404; delete → 204 then get → 404; delete unknown → 404; health →
+  200; and the spec-conformance test (below).
+
+LIVE DEMO (run_demo.sh) — PASS
+  Full CRUD flow against the live server: created WIDGET-01 and
+  GADGET-01, duplicate SKU correctly returned 409, in_stock_only
+  filter returned only WIDGET-01 (GADGET-01 had quantity 0), update
+  returned the new values, delete returned 204, get-after-delete
+  returned 404. The suite ran inside the demo script: 14 passed.
+  Independent DB check (read demo_inventory.db directly): one row
+  remains — WIDGET-01 | Super Widget v2 | 39.99 | 15 | general —
+  exactly the state the demo flow should leave behind.
+
+SPEC CONFORMANCE — VERIFIED INDEPENDENTLY (not just by the suite)
+  Fetched the live /openapi.json from the running server and compared
+  it against openapi.yaml: paths match, methods match, 422 response
+  schemas match, component sets match, ProductCreate and ProductUpdate
+  required fields match. The spec genuinely describes the live app.
+
+FIXES APPLIED BY CLANCY (marked in the files)
+  1. run_demo.sh — removed the `pip install` line. Deps are already in
+     the project venv, and there is no `pip` binary in this venv
+     (installs go through `uv pip install`), so the line would fail.
+  2. run_demo.sh — added PYTHONPATH=. to the pytest call. The `pytest`
+     binary does not put the working directory on sys.path, so
+     `from src.app import app` failed with ModuleNotFoundError inside
+     the demo (standalone `python -m pytest` runs had passed only
+     because `python -m` adds CWD). This was a real defect: the demo
+     script's own QA step was broken until the fix.
+  3. openapi.yaml — the hand-written spec had empty {} schemas for all
+     five 422 responses, but the live /openapi.json uses
+     $ref HTTPValidationError. Replaced all five with the $ref and
+     added the HTTPValidationError + ValidationError components copied
+     verbatim from the live schema. (One misstep during the fix: the
+     first patch wrote the key as \$ref; caught by re-reading the
+     parsed YAML and fixed to $ref before verification.)
+  4. SOP.md — closed an unclosed ```bash code fence after the uvicorn
+     start command.
+  5. README.md — fixed the unclosed ```bash fence and completed the
+     truncated "How to Run" section (manual server start + test-only
+     command were cut off mid-file).
+  6. Environment — installed pyyaml in the project venv (the
+     conformance test imports yaml; it was not installed).
+
+CONCLUSION
+  The package works as briefed: a real CRUD API, a spec that provably
+  matches the live app down to the error schemas, a 14-test regression
+  suite including a drift check, and a readable SOP. Every defect found
+  was in the glue (demo script, docs, spec details), not the API logic.
