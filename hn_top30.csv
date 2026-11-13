@@ -1,0 +1,31 @@
+rank,title,domain,points,submitter,comment_count
+1,Jensen Huang resigns,apnews.com,1859,lldb,1879
+2,Rust 1.100.0,github.com/rust-lang,107,thesuperbigfrog,15
+3,Gemini 4 Hydrogen,blog.google,184,dvaplima,109
+4,Ask HN: Microsoft/Azure Outage?,,99,nazgulsenpai,32
+5,Abandoned Quake 4 expansion finished by modders and now playable,moddb.com,165,klaussilveira,60
+6,I'm making LLMs work on small and old devices,github.com/hyperionaidev,137,mrashad74,53
+7,"Outlook is down, and so is Microsoft's status page",gvwire.com,76,dkpk,17
+8,Talking Zen 6 with Mike Clark at AMD In-Depth,chipsandcheese.com,124,dverlaeckt80,1
+9,ExcalidrawZ: Local Native Excalidraw on macOS/iOS,github.com/chocoford,62,Qision,18
+10,Why Writing Correct Software Is Hard,pron.github.io,295,AriFordsham,128
+11,"Show HN: AgentRun – open-source, Self-improving Managed Agents",github.com/parcha-ai,13,miguelrios,0
+12,Relax: JIT compiler for Rust to reduce build times,makepad.github.io,15,adamnemecek,1
+13,Libreagi – Save OSS Models,libreagi.com,84,satuke,17
+14,Nintendo Takes Down Emulators and Firmware in Massive GitHub DMCA Sweep,ign.com,130,CharlesW,78
+15,Paths in Pieces,stoppels.ch,13,acossta,0
+16,Anthropic IPO,anthropic.com,660,josephljohnston,673
+17,AWS Lambda Web Functions keep billing memory ~7 minutes after the last request,easel.sh,42,seanw265,11
+18,Socratic Tutor,github.com/janestreet,580,tosh,134
+19,Show HN: Kapso – Iterative learning from enterprise data,,9,alireza_msh,0
+20,A live tree of systemd jobs on the boot console,codeberg.org/wvhulle,305,orhunp_,116
+21,Our software engineering interviews are changing a little,janestreet.com,98,maitland,93
+22,"Show HN: My $300 embroidery machine needed a subscription, so I built my own app",github.com/simpsoka,17,simpsoka,1
+23,"Electric ship batteries promise compact, cooler power",ieee.org,43,rbanffy,41
+24,Creating Worlds: Runes and Spells Prototype,fractalkitty.com,13,evakhoury,2
+25,Researchers discover rare star system that emits radio signals every 8 minutes,curtin.edu.au,90,giuliomagnifico,50
+26,Fitting Four 32 GB Resizable Bars Behind a PCIe Switch on Linux,doug.sh,45,dougcalobrisi,20
+27,Decoding REXPaint Files in Odin,tylerelton.com,12,tylerelton,1
+28,Singapore Says U.S. Not Helpful on Investigation into Suspected Spy's Company,nytimes.com,18,tedd4u,0
+29,Critical RCE Vulnerability in Apache HTTP Server,wiz.io,341,soheilpro,183
+30,Show HN: AI Red Lines – write down what would make you act on AI,yourairedlines.com,27,ap11071,16
