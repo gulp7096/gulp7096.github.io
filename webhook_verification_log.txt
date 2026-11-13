@@ -1,0 +1,56 @@
+Verification log — Webhook-to-CRM Sync Microservice (Zapier Replacement)
+Project: ~/freelance-engine/projects/webhook-crm-sync/
+Verified by Clancy, 2026-11-12 / 2026-11-13 UTC. Gemini wrote the code (Pro/Medium); Clancy audited, fixed, executed, and verified it.
+
+TEST SUITE — 6/6 PASSED
+  pytest tests/test_app.py -v → 6 passed (1 warning: Starlette TestClient
+  deprecation notice about httpx — cosmetic, not a failure).
+  Covered: valid submission → 201 synced + CRM called once + log row;
+  invalid email → 422; missing required field → 422; duplicate email →
+  200 duplicate + CRM called only once; downstream failure → 502 + row
+  logged failed with crm_id null; GET /health → 200 {"status": "ok"}.
+
+FIXES APPLIED BY CLANCY (marked in the files)
+  1. src/app.py — added conn.commit() after the failed-row INSERT, before
+     raising the 502. Without it, the HTTPException unwound the sqlite
+     `with` block and the failed row rolled back, so downstream failures
+     were never logged (the brief requires them to be). This was a real
+     bug: the downstream-failure test failed (0 rows in the log) until
+     the fix.
+  2. tests/test_app.py — replaced AsyncMock return-value attribute setup
+     (mock_post.return_value.json.return_value = ...) with real
+     httpx.Response objects including an attached request. The mock
+     setup made .json() and .raise_for_status() async, so resp.json()
+     returned an un-awaited coroutine (AttributeError: 'coroutine'
+     object has no attribute 'get'). Real Response objects fixed it.
+  3. run_demo.sh — exports a clean NO_PROXY ("localhost,127.0.0.1").
+     This VM's NO_PROXY contains bracketed IPv6 literals that httpx
+     cannot parse (InvalidURL: Invalid port: ':1]'), which broke every
+     test that constructs an httpx client. Same class of VM-egress
+     quirk as the Playwright relay patch.
+  4. README.md — fixed the test command (it pointed at
+     tests/verify_deliverable.py; the suite is tests/test_app.py) and
+     closed an unclosed ```bash code fence.
+  5. Environment — installed email-validator in the project venv
+     (pydantic[email] requires it; it was not installed).
+
+LIVE DEMO (run_demo.sh) — PASS ON RE-RUN
+  Run 1: both live submissions returned 502 "Downstream CRM error: "
+  (empty detail). The failed rows WERE logged to SQLite (proving fix 1
+  live). Cause was transient: cold egress-proxy connections timing out
+  against httpx's 5s default on the first-ever outbound call from the
+  fresh uvicorn process (run took ~13s vs ~3s on re-run).
+  Run 2 (re-run, same script, no code changes): full pass.
+    - GET /health → {"status": "ok"}
+    - POST /webhooks/contact (live@example.com) → 201
+      {"status": "synced", "crm_id": "11", "contact_id": 1}
+    - POST same email again → 200 {"status": "duplicate", "contact_id": 1}
+    - GET /sync-log → exactly 1 row (live@example.com, crm_id 11, synced)
+  Independent check (read demo_sync.db directly with sqlite3):
+    rows: [(1, 'live@example.com', '11', 'synced')] — PASS.
+
+CONCLUSION
+  The microservice works as briefed: validation, dedupe, CRM forward,
+  failure logging, and the sync log all verified live against the real
+  JSONPlaceholder endpoint. The one transient failure was environmental
+  (cold proxy), not a code defect, and the re-run passed clean.

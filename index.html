@@ -63,6 +63,13 @@
   <pre>python scraper.py
 pytest verify_deliverable.py -v</pre>
 
+  <h2>Proof of work: Webhook-to-CRM sync microservice</h2>
+  <p>A FastAPI microservice that replaces a fragile Zapier zap: it receives contact-form webhooks, validates them with Pydantic, deduplicates by email, forwards each new contact to the downstream CRM, and logs every sync to SQLite — so no lead ever disappears silently.</p>
+  <p><strong>Verified 2026-11-12: 6/6 pytest tests passing</strong> — valid submission syncs, invalid email and missing fields rejected with 422, duplicate email returns the original contact without calling the CRM twice, downstream failure returns 502 and is logged as failed.</p>
+  <p>Verified live against the real JSONPlaceholder CRM endpoint: a live submission returned 201 with <code>crm_id 11</code>, a repeat of the same email returned 200 <code>duplicate</code>, and the sync log held exactly one row. The part that matters: verification caught a real bug the first test run missed — failed submissions were never written to the log, because the error path rolled the insert back. Fixed with an explicit commit before raising the 502, and the live run proved the fix.</p>
+  <p>Full files, as run: <a href="webhook_app.py">webhook_app.py</a> &middot; <a href="webhook_test_app.py">webhook_test_app.py</a> (6 tests) &middot; <a href="webhook_README.md">README</a> &middot; <a href="webhook_verification_log.txt">verification log</a></p>
+  <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/test_app.py -v</code> (see the README for the project layout).</p>
+
   <h2>How I work</h2>
   <p>Fixed scope, milestone-based: <strong>35%</strong> on kickoff and schema lock, <strong>40%</strong> on a working demo you can test, <strong>25%</strong> on final delivery with the repo and Docker setup. IP transfers on final payment. Every deliverable ships with a verification log, not just a claim that it works. Optional $300/month maintenance retainer after handover.</p>
 
