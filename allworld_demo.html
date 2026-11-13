@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>All World Automotive — Booking &amp; Status Demo</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;margin:0;color:#1a1a1a;background:#fafafa}
+  main{max-width:680px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:1.6rem;margin:.2em 0 .1em} h2{margin-top:2em;border-top:1px solid #ddd;padding-top:1em}
+  .tag{color:#555} .card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px 20px;margin:14px 0}
+  .note{background:#fff8e1;border:1px solid #f0d48a;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:.95em}
+  .result{background:#eef7ee;border:1px solid #b5d8b5;border-radius:10px;padding:18px 20px;margin:14px 0}
+  .full{background:#fdecea;border:1px solid #e8b4b0;border-radius:10px;padding:18px 20px;margin:14px 0}
+  label{display:block;margin:12px 0 4px;font-weight:600}
+  select,input[type=date],input[type=text],input[type=tel]{width:100%;padding:9px 10px;border:1px solid #bbb;border-radius:8px;font-size:1em;box-sizing:border-box}
+  .row{display:flex;gap:12px}.row>div{flex:1}
+  button{background:#0b5fff;color:#fff;border:0;border-radius:8px;padding:12px 22px;font-size:1em;cursor:pointer;margin-top:16px}
+  button:hover{background:#094fd1}
+  button.ghost{background:#fff;color:#0b5fff;border:1px solid #0b5fff;margin-right:8px}
+  .sms{background:#111;color:#eee;border-radius:8px;padding:12px 14px;font-size:.95em;margin:10px 0;white-space:pre-wrap}
+  .stages{list-style:none;padding:0;margin:12px 0}
+  .stages li{padding:6px 0;color:#888}
+  .stages li.done{color:#1a7a1a;font-weight:600}
+  .stages li.now{color:#1a1a1a;font-weight:700}
+  footer{color:#666;font-size:.9em;margin-top:3em}
+</style>
+</head>
+<body>
+<main>
+  <p class="tag">Concept demo &middot; built by Chris — Python Developer | Web Scraping, API Automation &amp; QA</p>
+  <h1>Book a repair — All World Automotive</h1>
+  <p>Pick a service and a day. The shop only takes as many cars as its bays can handle that day — and once your car is in, you get a text at every stage instead of having to call and ask.</p>
+
+  <div class="note"><strong>Concept demo, not All World&rsquo;s booking system.</strong> This page shows how capacity-aware booking and status texts <em>could</em> work for All World, using their real services and hours (Tue–Sat, 8am–4pm). The bay and technician counts below are illustrative assumptions — the real numbers are locked with the owner before anything goes live. All World has not endorsed this demo.</div>
+
+  <div class="card">
+    <label for="service">What does your car need?</label>
+    <select id="service">
+      <option value="oil">Oil &amp; filter change — about 1 hour</option>
+      <option value="brakes">Brake pad replacement — about 2 hours</option>
+      <option value="tires">Tire rotation — about 1 hour</option>
+      <option value="diag">Check engine light diagnosis — about 1 hour</option>
+      <option value="align">Wheel alignment — about 1.5 hours</option>
+      <option value="ac">A/C diagnosis — about 1.5 hours</option>
+    </select>
+
+    <div class="row">
+      <div>
+        <label for="date">Preferred date</label>
+        <input type="date" id="date">
+      </div>
+      <div>
+        <label for="window">Arrival window</label>
+        <select id="window">
+          <option>8–10am</option>
+          <option>10am–12pm</option>
+          <option>12–2pm</option>
+          <option selected>2–4pm</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div>
+        <label for="name">Your name</label>
+        <input type="text" id="name" placeholder="e.g. Alex Morgan">
+      </div>
+      <div>
+        <label for="phone">Mobile (for status texts)</label>
+        <input type="tel" id="phone" placeholder="(303) 555-0148">
+      </div>
+    </div>
+
+    <button id="book" type="button">Check availability &amp; book</button>
+  </div>
+
+  <div id="out"></div>
+
+  <h2>How capacity works (nothing hidden)</h2>
+  <p>Demo assumptions: 3 bays, 2 technicians, maximum 6 cars per day. A booking counts against the day it is made for. When the day is full, the system says so immediately and offers the next open day instead of taking a car the shop cannot get to. In the real system these numbers come from the shop — the demo is only showing the mechanism.</p>
+
+  <footer>Demo built as part of a research report on All World Automotive (Aurora, CO). Full report: <a href="allworld_research_report.md">allworld_research_report.md</a>. Portfolio: <a href="index.html">Chris — Python Developer</a>.</footer>
+</main>
+<script>
+const SERVICES = {
+  oil:    {label: "Oil & filter change", hours: 1},
+  brakes: {label: "Brake pad replacement", hours: 2},
+  tires:  {label: "Tire rotation", hours: 1},
+  diag:   {label: "Check engine light diagnosis", hours: 1},
+  align:  {label: "Wheel alignment", hours: 1.5},
+  ac:     {label: "A/C diagnosis", hours: 1.5}
+};
+const MAX_CARS_PER_DAY = 6;
+// Demo seed: cars already booked on upcoming days, by offset from today.
+const SEEDED = {0: 5, 1: 6, 2: 2};
+const STAGES = ["Received", "Diagnosed", "In progress", "Ready"];
+let booking = null; // {service, date, window, name, stage, delayed}
+
+function dayKey(d) { return d.toISOString().slice(0, 10); }
+function addDays(d, n) { const c = new Date(d); c.setDate(c.getDate() + n); return c; }
+function offsetDays(from, to) { return Math.round((to - from) / 86400000); }
+function bookedOn(date) {
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  const off = offsetDays(today, date);
+  return SEEDED[off] !== undefined ? SEEDED[off] : 0;
+}
+function isOpenDay(date) { const dow = date.getDay(); return dow !== 0 && dow !== 1; } // closed Sun (0) & Mon (1)
+function nextAvailable(from) {
+  for (let i = 1; i <= 14; i++) {
+    const d = addDays(from, i);
+    if (isOpenDay(d) && bookedOn(d) < MAX_CARS_PER_DAY) return d;
+  }
+  return null;
+}
+function smsText(stage, b) {
+  const n = b.name || "there";
+  if (stage === 0) return "Hi " + n + ", All World Automotive here — we've received your car for " + b.service.label.toLowerCase() + ". We'll text you once diagnosis is done.";
+  if (stage === 1) return "Hi " + n + ", diagnosis is done on your car. " + b.service.label + " is underway — we'll text you when it's ready.";
+  if (stage === 2) return "Hi " + n + ", your car is in progress now (" + b.service.label + "). Estimated ready today by close, 4pm. We'll confirm when it's done.";
+  return "Hi " + n + ", your car is ready for pickup at All World Automotive, 17084 E Quincy Ave. " + b.service.label + " complete. See you soon!";
+}
+function delayText(b) {
+  return "Hi " + (b.name || "there") + ", All World Automotive here — your " + b.service.label.toLowerCase() + " is taking longer than expected. New estimated completion is tomorrow by 10am. We'll text you the moment it's ready. Sorry for the wait.";
+}
+function renderStatus() {
+  const b = booking;
+  let items = "";
+  STAGES.forEach(function (s, i) {
+    const cls = i < b.stage ? "done" : (i === b.stage ? "now" : "");
+    const mark = i < b.stage ? "✓ " : (i === b.stage ? "→ " : "");
+    items += '<li class="' + cls + '">' + mark + s + "</li>";
+  });
+  let html = '<div class="result"><h2 style="margin-top:0;border:0;padding:0">Your car: ' + STAGES[b.stage] + "</h2>" +
+    "<p>" + b.service.label + " · " + b.date + ", arrival " + b.window + " · " + (MAX_CARS_PER_DAY - bookedOn(new Date(b.date + "T00:00:00")) - 1) + " slot(s) left that day after your booking.</p>" +
+    '<ul class="stages">' + items + "</ul>" +
+    '<p>Text you would receive now:</p><div class="sms">' + smsText(b.stage, b) + "</div>";
+  if (b.delayed) html += '<p>Delay notice sent:</p><div class="sms">' + delayText(b) + "</div>";
+  html += '<button class="ghost" id="advance" type="button">Advance status (shop updates the job)</button>' +
+    '<button class="ghost" id="delay" type="button">Simulate a delay</button></div>';
+  document.getElementById("out").innerHTML = html;
+  const adv = document.getElementById("advance");
+  if (adv) adv.addEventListener("click", function () {
+    if (booking.stage < 3) { booking.stage++; renderStatus(); }
+  });
+  const dly = document.getElementById("delay");
+  if (dly) dly.addEventListener("click", function () { booking.delayed = true; renderStatus(); });
+  document.getElementById("out").scrollIntoView({behavior: "smooth"});
+}
+
+document.getElementById("book").addEventListener("click", function () {
+  const svc = SERVICES[document.getElementById("service").value];
+  const dateVal = document.getElementById("date").value;
+  const win = document.getElementById("window").value;
+  const name = document.getElementById("name").value.trim();
+  const out = document.getElementById("out");
+  if (!dateVal) { out.innerHTML = '<div class="full"><strong>Pick a date first.</strong></div>'; return; }
+  const date = new Date(dateVal + "T00:00:00");
+  const today = new Date(); today.setHours(0, 0, 0, 0);
+  if (date < today) { out.innerHTML = '<div class="full"><strong>That date is in the past.</strong> Pick today or a future day.</div>'; return; }
+  if (!isOpenDay(date)) {
+    out.innerHTML = '<div class="full"><strong>The shop is closed Sundays and Mondays.</strong> Pick a Tuesday–Saturday — the next open day is ' + dayKey(nextAvailable(date) || addDays(date, 1)) + ".</div>";
+    return;
+  }
+  const booked = bookedOn(date);
+  if (booked >= MAX_CARS_PER_DAY) {
+    const next = nextAvailable(date);
+    out.innerHTML = '<div class="full"><h2 style="margin-top:0;border:0;padding:0">That day is full — ' + booked + " of " + MAX_CARS_PER_DAY + ' cars already booked</h2>' +
+      "<p>In the live system this is the point where the old way would have taken your car anyway. Here it stops: no more cars are accepted for " + dateVal + ".</p>" +
+      (next ? "<p>Next available day: <strong>" + dayKey(next) + "</strong> (" + (MAX_CARS_PER_DAY - bookedOn(next)) + " slots open). Pick that date above to book it.</p>" : "") +
+      "<p>Or join the waitlist — the shop texts you first if a slot opens.</p></div>";
+    return;
+  }
+  booking = {service: svc, date: dateVal, window: win, name: name, stage: 0, delayed: false};
+  renderStatus();
+});
+</script>
+</body>
+</html>
