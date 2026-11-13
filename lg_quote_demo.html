@@ -1,0 +1,182 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>L&amp;G Cleaning Services — Instant Quote Demo</title>
+<style>
+  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;margin:0;color:#1a1a1a;background:#fafafa}
+  main{max-width:680px;margin:0 auto;padding:32px 20px 64px}
+  h1{font-size:1.6rem;margin:.2em 0 .1em} h2{margin-top:2em;border-top:1px solid #ddd;padding-top:1em}
+  .tag{color:#555} .card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px 20px;margin:14px 0}
+  .note{background:#fff8e1;border:1px solid #f0d48a;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:.95em}
+  .result{background:#eef7ee;border:1px solid #b5d8b5;border-radius:10px;padding:18px 20px;margin:14px 0}
+  label{display:block;margin:12px 0 4px;font-weight:600}
+  select,input[type=date],input[type=text],input[type=tel],input[type=email]{width:100%;padding:9px 10px;border:1px solid #bbb;border-radius:8px;font-size:1em;box-sizing:border-box}
+  .row{display:flex;gap:12px}.row>div{flex:1}
+  .checks label{display:inline-block;font-weight:400;margin:6px 14px 6px 0}
+  button{background:#0b5fff;color:#fff;border:0;border-radius:8px;padding:12px 22px;font-size:1em;cursor:pointer;margin-top:16px}
+  button:hover{background:#094fd1}
+  table{border-collapse:collapse;width:100%;font-size:.95em} th,td{border-bottom:1px solid #e5e5e5;text-align:left;padding:6px 8px}
+  td:last-child,th:last-child{text-align:right}
+  .total{font-weight:700;font-size:1.15em}
+  footer{color:#666;font-size:.9em;margin-top:3em}
+</style>
+</head>
+<body>
+<main>
+  <p class="tag">Concept demo &middot; built by Chris — Python Developer | Web Scraping, API Automation &amp; QA</p>
+  <h1>Instant quote — L&amp;G Cleaning Services</h1>
+  <p>Pick a service and tell us about your space. Standard home cleans get a firm quote and a confirmed appointment on the spot. Complex jobs go to Luis for a personal confirmation, exactly as they do today.</p>
+
+  <div class="note"><strong>Concept demo, not L&amp;G&rsquo;s booking system.</strong> This page shows how automated quoting <em>could</em> work for L&amp;G, using their published price ranges. The quote rules below are illustrative — exact pricing is locked with the owner before anything goes live. L&amp;G has not endorsed this demo.</div>
+
+  <div class="card">
+    <label for="service">What kind of cleaning do you need?</label>
+    <select id="service">
+      <option value="home">Home &amp; Apartment — typical $120–$260</option>
+      <option value="deep">Deep Clean — typical $220–$450</option>
+      <option value="move">Move In / Out — typical $260–$550</option>
+      <option value="post">Post-Construction — typical $300–$700</option>
+      <option value="office">Office / Commercial — typical $180–$450</option>
+    </select>
+
+    <div class="row">
+      <div>
+        <label for="bed">Bedrooms</label>
+        <select id="bed">
+          <option value="0">Studio</option>
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5+</option>
+        </select>
+      </div>
+      <div>
+        <label for="bath">Bathrooms</label>
+        <select id="bath">
+          <option value="1">1</option>
+          <option value="2" selected>2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5+</option>
+        </select>
+      </div>
+      <div>
+        <label for="sqft">Approx. sq ft</label>
+        <input type="text" id="sqft" value="1800" inputmode="numeric">
+      </div>
+    </div>
+
+    <label for="freq">How often?</label>
+    <select id="freq">
+      <option value="1">One-time</option>
+      <option value="0.8">Weekly — 20% off</option>
+      <option value="0.85" selected>Every two weeks — 15% off</option>
+      <option value="0.9">Monthly — 10% off</option>
+    </select>
+
+    <label>Add-ons</label>
+    <div class="checks">
+      <label><input type="checkbox" id="addon-fridge"> Inside fridge (+$25)</label>
+      <label><input type="checkbox" id="addon-oven"> Inside oven (+$25)</label>
+      <label><input type="checkbox" id="addon-windows"> Interior windows (+$30)</label>
+      <label><input type="checkbox" id="addon-laundry"> Laundry &amp; ironing (+$20)</label>
+    </div>
+
+    <label><input type="checkbox" id="senior"> Senior discount, 65+ (10% — cannot combine with a recurring discount; the larger discount applies)</label>
+
+    <div class="row">
+      <div>
+        <label for="date">Preferred date</label>
+        <input type="date" id="date">
+      </div>
+      <div>
+        <label for="window">Arrival window</label>
+        <select id="window">
+          <option>8–10am</option>
+          <option>10am–12pm</option>
+          <option>12–2pm</option>
+          <option selected>2–4pm</option>
+        </select>
+      </div>
+    </div>
+
+    <button id="go" type="button">Get my instant quote</button>
+  </div>
+
+  <div id="out"></div>
+
+  <h2>How the quote is calculated (nothing hidden)</h2>
+  <p>Base price starts at the low end of the service&rsquo;s published range, then adds $35 per bedroom beyond the first and $25 per bathroom beyond the first, capped at the high end of the range. Larger homes add $20 (1,500–2,500 sq ft) or $40 (over 2,500 sq ft). Add-ons are flat fees. The frequency or senior discount applies last. In the real system these rules are locked with Luis; here they are illustrative.</p>
+
+  <footer>Demo built as part of a research report on L&amp;G Cleaning Services (Aurora, CO). Full report: <a href="lg_research_report.md">lg_research_report.md</a>. Portfolio: <a href="index.html">Chris — Python Developer</a>.</footer>
+</main>
+<script>
+const RANGES = {
+  home:   {label: "Home & Apartment",   low: 120, high: 260, auto: true},
+  deep:   {label: "Deep Clean",         low: 220, high: 450, auto: false},
+  move:   {label: "Move In / Out",      low: 260, high: 550, auto: false},
+  post:   {label: "Post-Construction",  low: 300, high: 700, auto: false},
+  office: {label: "Office / Commercial",low: 180, high: 450, auto: true}
+};
+const ADDONS = [
+  ["addon-fridge", "Inside fridge", 25],
+  ["addon-oven", "Inside oven", 25],
+  ["addon-windows", "Interior windows", 30],
+  ["addon-laundry", "Laundry & ironing", 20]
+];
+
+document.getElementById("go").addEventListener("click", function () {
+  const svc = RANGES[document.getElementById("service").value];
+  const bed = parseInt(document.getElementById("bed").value, 10);
+  const bath = parseInt(document.getElementById("bath").value, 10);
+  const sqft = parseInt((document.getElementById("sqft").value || "0").replace(/[^0-9]/g, ""), 10) || 0;
+  const freq = parseFloat(document.getElementById("freq").value);
+  const senior = document.getElementById("senior").checked;
+  const date = document.getElementById("date").value;
+  const win = document.getElementById("window").value;
+
+  let base = svc.low + 35 * Math.max(0, bed - 1) + 25 * Math.max(0, bath - 1);
+  if (base > svc.high) base = svc.high;
+  let sizeAdj = sqft > 2500 ? 40 : (sqft >= 1500 ? 20 : 0);
+  let subtotal = base + sizeAdj;
+  let addonTotal = 0, addonRows = "";
+  for (const [id, name, price] of ADDONS) {
+    if (document.getElementById(id).checked) {
+      addonTotal += price;
+      addonRows += "<tr><td>" + name + "</td><td>$" + price + "</td></tr>";
+    }
+  }
+  subtotal += addonTotal;
+  let discountRate = freq;
+  if (senior && 0.9 < discountRate) discountRate = 0.9; // senior cannot combine; larger discount wins
+  const discount = Math.round(subtotal * (1 - discountRate));
+  const total = subtotal - discount;
+  const money = n => "$" + n;
+
+  let rows = "<tr><td>Base (" + svc.label + ", " + bed + " bed / " + bath + " bath)</td><td>" + money(base) + "</td></tr>";
+  if (sizeAdj) rows += "<tr><td>Home size (" + sqft.toLocaleString() + " sq ft)</td><td>" + money(sizeAdj) + "</td></tr>";
+  rows += addonRows;
+  if (discount) rows += "<tr><td>Discount (" + Math.round((1 - discountRate) * 100) + "% off)</td><td>&minus;" + money(discount) + "</td></tr>";
+  rows += "<tr class=\"total\"><td>Total</td><td>" + money(total) + "</td></tr>";
+
+  let head, body;
+  if (svc.auto) {
+    head = "Your firm quote: " + money(total);
+    body = "<p><strong>Confirmed.</strong> In the live system this slot would be held and a confirmation text and email sent instantly — no waiting on a callback. (This demo does not book anything or send messages.)</p>";
+  } else {
+    head = "Your estimate: " + money(total) + " — sent to Luis for confirmation";
+    body = "<p>" + svc.label + " jobs are confirmed personally by Luis, as they are today. In the live system this request would go straight to his approval queue with the estimate attached — he confirms, and the customer gets the confirmation automatically.</p>";
+  }
+  if (date) body += "<p>Requested: " + date + ", arrival " + win + ".</p>";
+
+  document.getElementById("out").innerHTML =
+    "<div class=\"result\"><h2 style=\"margin-top:0;border:0;padding:0\">" + head + "</h2>" +
+    "<table>" + rows + "</table>" + body + "</div>";
+  document.getElementById("out").scrollIntoView({behavior: "smooth"});
+});
+</script>
+</body>
+</html>
