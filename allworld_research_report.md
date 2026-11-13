@@ -2,7 +2,7 @@
 
 ## 1. Executive Summary
 The Business: All World Automotive is an independent auto repair shop based in Aurora, Colorado. Established in 2017 and owned by Ali, the shop provides a wide range of general repair services and has built a base of long-time customers who praise the quality of work and fair pricing.
-The Issue: The shop suffers from a severe intake and communication bottleneck. OpenBay and the phone line take in bookings without a capacity limit, causing the shop to accept more cars than it can handle. Once cars are in the shop, there is a documented pattern of zero status communication and missed deadlines.
+The Issue: The shop suffers from an intake and communication bottleneck. OpenBay and the phone line take in bookings without a capacity limit, causing the shop to accept more cars than it can handle. Once cars are in the shop, there is a documented pattern of zero status communication and missed deadlines.
 The Proposed Product: A capacity-aware booking and status-communication FastAPI microservice. This solution will funnel OpenBay and phone bookings into a single intake queue, cap new bookings based on real daily bay and technician capacity, and automatically dispatch SMS status updates and delay notices to customers, supported by a new operational SOP.
 
 ## 2. The Business
@@ -16,7 +16,7 @@ The Proposed Product: A capacity-aware booking and status-communication FastAPI 
 
 ## 3. The Issue: Overbooked, Then Silent
 The core issue is that the shop takes in more cars than it can handle, and then goes silent.
-The mechanics driving this are entirely intake-related: OpenBay and the phone line accept bookings without checking the real bay or technician capacity for the day. Once a car is physically in the shop, there is no system for status communication and no callbacks are made when a job slips. This creates a severe gap between the OpenBay listing's promise of "quick and reliable" service where "we will always make sure that you completely understand what will be done to your vehicle" and the actual customer reality.
+The mechanics driving this are entirely intake-related: OpenBay and the phone line accept bookings without checking the real bay or technician capacity for the day. Once a car is physically in the shop, there is no system for status communication and no callbacks are made when a job slips. This creates a gap between the OpenBay listing's promise of "quick and reliable" service where "we will always make sure that you completely understand what will be done to your vehicle" and the actual customer reality.
 This pattern is documented directly in multiple independent reviews:
  * "The shop is run correctly when the owner is around but unfortunately he hasn't been around for awhile and it's been left to a guy named Alex who clearly over books and under staffs and constantly take too long on everything… dropped my vehicle off for a quick check up at 8:45am… he called me at 6PM claiming he didn't have time to get to it"
  * "These guys over book and under staff"
@@ -33,7 +33,7 @@ This pattern is documented directly in multiple independent reviews:
  * No Owned Booking Channel: Everything relies on a third-party marketplace listing and phone calls. Because the shop does not own its booking channel, there is no structural way to cap intake or text customers at scale—forcing the staff to call customers one by one, which they are currently failing to do.
 
 ## 5. The Product Idea: Capacity-Aware Booking + Status-Communication Service
-To resolve the intake bottleneck and communication blackout, we propose a custom FastAPI middleware service.
+To resolve the intake bottleneck and the lack of status communication, we propose a custom FastAPI middleware service.
  * What It Does: The service funnels all bookings from OpenBay and phone calls into a single, unified intake queue. It then caps new daily bookings by checking them against the real bay and technician capacity limits for that specific day.
  * End-to-End Flow: When a customer drops off a car, they are enrolled in the automated system. The service dispatches automatic SMS status texts at each key stage of the repair (received → diagnosed → in progress → ready). If a job slips past its expected completion time, the service automatically sends a delay notice.
  * Manual Override: The owner or manager retains the ability to override the capacity limits for emergencies or highly profitable walk-ins.

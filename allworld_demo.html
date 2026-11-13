@@ -4,26 +4,38 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>All World Automotive — Booking &amp; Status Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;margin:0;color:#1a1a1a;background:#fafafa}
-  main{max-width:680px;margin:0 auto;padding:32px 20px 64px}
-  h1{font-size:1.6rem;margin:.2em 0 .1em} h2{margin-top:2em;border-top:1px solid #ddd;padding-top:1em}
-  .tag{color:#555} .card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px 20px;margin:14px 0}
-  .note{background:#fff8e1;border:1px solid #f0d48a;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:.95em}
-  .result{background:#eef7ee;border:1px solid #b5d8b5;border-radius:10px;padding:18px 20px;margin:14px 0}
-  .full{background:#fdecea;border:1px solid #e8b4b0;border-radius:10px;padding:18px 20px;margin:14px 0}
-  label{display:block;margin:12px 0 4px;font-weight:600}
-  select,input[type=date],input[type=text],input[type=tel]{width:100%;padding:9px 10px;border:1px solid #bbb;border-radius:8px;font-size:1em;box-sizing:border-box}
-  .row{display:flex;gap:12px}.row>div{flex:1}
-  button{background:#0b5fff;color:#fff;border:0;border-radius:8px;padding:12px 22px;font-size:1em;cursor:pointer;margin-top:16px}
-  button:hover{background:#094fd1}
-  button.ghost{background:#fff;color:#0b5fff;border:1px solid #0b5fff;margin-right:8px}
-  .sms{background:#111;color:#eee;border-radius:8px;padding:12px 14px;font-size:.95em;margin:10px 0;white-space:pre-wrap}
-  .stages{list-style:none;padding:0;margin:12px 0}
-  .stages li{padding:6px 0;color:#888}
-  .stages li.done{color:#1a7a1a;font-weight:600}
-  .stages li.now{color:#1a1a1a;font-weight:700}
-  footer{color:#666;font-size:.9em;margin-top:3em}
+  :root{--page:#f5f7fa;--card:#ffffff;--raised:#eceff4;--ink:#111827;--secondary:#4b5565;--muted:#6b7487;--line:rgba(17,24,39,.08);--border:#d1d5db;--accent:#0f766e}
+  body{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;margin:0;color:var(--ink);background:var(--page);font-size:16px}
+  main{max-width:720px;margin:0 auto;padding:32px 24px 64px}
+  h1{font-size:36px;line-height:1.1;font-weight:500;letter-spacing:-.02em;margin:16px 0 8px}
+  h2{font-size:24px;font-weight:500;margin:32px 0 16px;border-top:1px solid var(--line);padding-top:24px}
+  p{margin:0 0 16px}
+  strong{font-weight:500}
+  a{color:var(--accent)}
+  .tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--muted);margin:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:16px 0}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:16px 0;font-size:15px}
+  .result{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+  .result h2{margin:0 0 16px;border:0;padding:0}
+  .full{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+  .full h2{margin:0 0 16px;border:0;padding:0}
+  label{display:block;margin:16px 0 8px;font-weight:500;font-size:14px}
+  select,input[type=date],input[type=text],input[type=tel]{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:16px;box-sizing:border-box;background:var(--card);color:var(--ink);font-family:inherit}
+  .row{display:flex;gap:16px}.row>div{flex:1}
+  button{background:var(--ink);color:#ffffff;border:0;border-radius:8px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;margin-top:16px;min-height:48px}
+  button:hover{background:#374151}
+  button.ghost{background:var(--card);color:var(--accent);border:1px solid var(--accent);margin-right:8px;min-height:44px}
+  .sms{background:var(--ink);color:#eef0f5;border-radius:8px;padding:12px 16px;font-size:15px;margin:12px 0;white-space:pre-wrap}
+  .stages{list-style:none;padding:0;margin:16px 0}
+  .stages li{padding:8px 0;color:var(--muted);font-variant-numeric:tabular-nums}
+  .stages li.done{color:var(--accent);font-weight:500}
+  .stages li.now{color:var(--ink);font-weight:500}
+  footer{color:var(--muted);font-size:14px;margin-top:48px}
+  @media (max-width:720px){ .row{flex-direction:column;gap:0} h1{font-size:32px} main{padding:24px 20px 48px} }
 </style>
 </head>
 <body>
@@ -64,7 +76,7 @@
     <div class="row">
       <div>
         <label for="name">Your name</label>
-        <input type="text" id="name" placeholder="e.g. Alex Morgan">
+        <input type="text" id="name" placeholder="e.g. Sam Rivera">
       </div>
       <div>
         <label for="phone">Mobile (for status texts)</label>
@@ -118,7 +130,7 @@ function smsText(stage, b) {
   if (stage === 0) return "Hi " + n + ", All World Automotive here — we've received your car for " + b.service.label.toLowerCase() + ". We'll text you once diagnosis is done.";
   if (stage === 1) return "Hi " + n + ", diagnosis is done on your car. " + b.service.label + " is underway — we'll text you when it's ready.";
   if (stage === 2) return "Hi " + n + ", your car is in progress now (" + b.service.label + "). Estimated ready today by close, 4pm. We'll confirm when it's done.";
-  return "Hi " + n + ", your car is ready for pickup at All World Automotive, 17084 E Quincy Ave. " + b.service.label + " complete. See you soon!";
+  return "Hi " + n + ", your car is ready for pickup at All World Automotive, 17084 E Quincy Ave. " + b.service.label + " complete. See you soon";
 }
 function delayText(b) {
   return "Hi " + (b.name || "there") + ", All World Automotive here — your " + b.service.label.toLowerCase() + " is taking longer than expected. New estimated completion is tomorrow by 10am. We'll text you the moment it's ready. Sorry for the wait.";
@@ -131,7 +143,7 @@ function renderStatus() {
     const mark = i < b.stage ? "✓ " : (i === b.stage ? "→ " : "");
     items += '<li class="' + cls + '">' + mark + s + "</li>";
   });
-  let html = '<div class="result"><h2 style="margin-top:0;border:0;padding:0">Your car: ' + STAGES[b.stage] + "</h2>" +
+  let html = '<div class="result"><h2>Your car: ' + STAGES[b.stage] + "</h2>" +
     "<p>" + b.service.label + " · " + b.date + ", arrival " + b.window + " · " + (MAX_CARS_PER_DAY - bookedOn(new Date(b.date + "T00:00:00")) - 1) + " slot(s) left that day after your booking.</p>" +
     '<ul class="stages">' + items + "</ul>" +
     '<p>Text you would receive now:</p><div class="sms">' + smsText(b.stage, b) + "</div>";
@@ -154,18 +166,18 @@ document.getElementById("book").addEventListener("click", function () {
   const win = document.getElementById("window").value;
   const name = document.getElementById("name").value.trim();
   const out = document.getElementById("out");
-  if (!dateVal) { out.innerHTML = '<div class="full"><strong>Pick a date first.</strong></div>'; return; }
+  if (!dateVal) { out.innerHTML = '<div class="full"><strong>Pick a date first</strong></div>'; return; }
   const date = new Date(dateVal + "T00:00:00");
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  if (date < today) { out.innerHTML = '<div class="full"><strong>That date is in the past.</strong> Pick today or a future day.</div>'; return; }
+  if (date < today) { out.innerHTML = '<div class="full"><strong>That date is in the past</strong> — pick today or a future day.</div>'; return; }
   if (!isOpenDay(date)) {
-    out.innerHTML = '<div class="full"><strong>The shop is closed Sundays and Mondays.</strong> Pick a Tuesday–Saturday — the next open day is ' + dayKey(nextAvailable(date) || addDays(date, 1)) + ".</div>";
+    out.innerHTML = '<div class="full"><strong>The shop is closed Sundays and Mondays</strong> — pick a Tuesday–Saturday. The next open day is ' + dayKey(nextAvailable(date) || addDays(date, 1)) + ".</div>";
     return;
   }
   const booked = bookedOn(date);
   if (booked >= MAX_CARS_PER_DAY) {
     const next = nextAvailable(date);
-    out.innerHTML = '<div class="full"><h2 style="margin-top:0;border:0;padding:0">That day is full — ' + booked + " of " + MAX_CARS_PER_DAY + ' cars already booked</h2>' +
+    out.innerHTML = '<div class="full"><h2>That day is full — ' + booked + " of " + MAX_CARS_PER_DAY + ' cars already booked</h2>' +
       "<p>In the live system this is the point where the old way would have taken your car anyway. Here it stops: no more cars are accepted for " + dateVal + ".</p>" +
       (next ? "<p>Next available day: <strong>" + dayKey(next) + "</strong> (" + (MAX_CARS_PER_DAY - bookedOn(next)) + " slots open). Pick that date above to book it.</p>" : "") +
       "<p>Or join the waitlist — the shop texts you first if a slot opens.</p></div>";

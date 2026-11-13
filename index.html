@@ -5,40 +5,84 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Chris — Python Developer | Web Scraping, API Automation &amp; QA</title>
 <meta name="description" content="Python automation that holds up in production: Playwright scraping & data QA, API & webhook middleware, OpenAPI docs & QA automation. Aurora / Denver, Colorado.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;margin:0;color:#1a1a1a;background:#fafafa}
-  main{max-width:760px;margin:0 auto;padding:32px 20px 64px}
-  h1{font-size:2rem;margin:.2em 0 .1em} h2{margin-top:2.2em;border-top:1px solid #ddd;padding-top:1em}
-  .tag{color:#555} .pill{display:inline-block;background:#eef;border:1px solid #ccd;border-radius:999px;padding:2px 10px;margin:2px;font-size:.85em}
-  .card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px 20px;margin:14px 0}
-  table{border-collapse:collapse;width:100%;font-size:.9em} th,td{border-bottom:1px solid #e5e5e5;text-align:left;padding:6px 8px;vertical-align:top}
-  code{background:#f0f0f0;padding:1px 5px;border-radius:4px} pre{background:#111;color:#eee;padding:14px;border-radius:8px;overflow:auto;font-size:.85em}
-  a{color:#0b5fff} footer{color:#666;font-size:.9em;margin-top:3em}
+  :root{--page:#f7f4ee;--card:#fdfbf7;--raised:#efe9df;--ink:#1f1b16;--secondary:#5e554a;--muted:#7b7266;--line:rgba(31,27,22,.08);--accent:#9a3412}
+  body{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;margin:0;color:var(--ink);background:var(--page);font-size:16px}
+  main{max-width:960px;margin:0 auto;padding:32px 24px 64px}
+  h1{font-size:48px;line-height:1.05;font-weight:500;letter-spacing:-.02em;margin:16px 0}
+  h2{font-size:28px;line-height:1.15;font-weight:500;margin:64px 0 16px;border-top:1px solid var(--line);padding-top:24px}
+  h3{font-size:20px;font-weight:500;margin:0 0 8px}
+  p{margin:0 0 16px}
+  strong{font-weight:500}
+  a{color:var(--accent)}
+  .eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--muted);margin:0}
+  .subhead{font-size:20px;line-height:1.4;color:var(--secondary);max-width:36rem;margin:0 0 24px}
+  .actions{display:flex;gap:16px;align-items:center;margin:0 0 32px}
+  .btn{display:inline-block;background:var(--ink);color:#fdfbf7;border-radius:8px;padding:12px 20px;font-size:16px;font-weight:500;text-decoration:none}
+  .btn:hover{background:#3a332b}
+  .textlink{font-weight:500;text-decoration:none}
+  .proofstrip{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:20px 0;margin:0 0 16px}
+  .proofstrip .num{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:28px;font-weight:500;font-variant-numeric:tabular-nums;line-height:1}
+  .proofstrip .lbl{font-size:13px;color:var(--muted);margin-top:8px}
+  .services{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:16px 0}
+  .services .card{margin:0}
+  .card .meta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;color:var(--muted);margin:12px 0 0}
+  .tag{color:var(--secondary)}
+  .pill{display:inline-block;background:var(--raised);border:1px solid var(--line);border-radius:6px;padding:4px 8px;margin:4px 4px 4px 0;font-size:13px}
+  .meta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--muted)}
+  table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+  th,td{border-bottom:1px solid var(--line);text-align:left;padding:8px;vertical-align:top}
+  th{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;font-weight:500;color:var(--muted)}
+  td.num,th.num{text-align:right;font-family:"IBM Plex Mono",ui-monospace,monospace}
+  code{background:var(--raised);padding:2px 6px;border-radius:4px;font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px}
+  pre{background:var(--ink);color:#efe9de;padding:16px;border-radius:8px;overflow:auto;font-size:14px;font-family:"IBM Plex Mono",ui-monospace,monospace}
+  footer{color:var(--muted);font-size:14px;margin-top:48px}
+  @media (max-width:720px){
+    h1{font-size:36px}
+    .services{grid-template-columns:1fr}
+    .proofstrip{grid-template-columns:repeat(2,1fr)}
+    main{padding:24px 20px 48px}
+  }
 </style>
 </head>
 <body>
 <main>
+  <p class="eyebrow">Chris — Python developer, Aurora / Denver</p>
+  <h1>Python automation for small businesses that holds up in production</h1>
+  <p class="subhead">Scrapers, API integrations, and QA suites, delivered with tests that prove they work. I replace fragile manual work and no-code workarounds with clean, documented Python.</p>
+  <div class="actions">
+    <a class="btn" href="#proof">See proof of work</a>
+    <a class="textlink" href="https://github.com/gulp7096">GitHub: gulp7096</a>
+  </div>
+  <div class="proofstrip">
+    <div><div class="num">30</div><div class="lbl">Hacker News rows, verified</div></div>
+    <div><div class="num">1,000</div><div class="lbl">Books scraped, all 50 pages</div></div>
+    <div><div class="num">14/14</div><div class="lbl">Inventory tests passing</div></div>
+    <div><div class="num">6</div><div class="lbl">Portfolio pieces, all verified</div></div>
+  </div>
   <p class="tag">Aurora / Denver, Colorado &middot; $40/hr &middot; Fixed-price and hourly contracts</p>
-  <h1>Chris</h1>
-  <p><strong>Python Developer | Web Scraping, API Automation &amp; QA</strong></p>
-  <p>I build Python automation that holds up in production — scrapers, API integrations, and QA suites, delivered with tests that prove they work. My focus is replacing fragile manual work and no-code workarounds with clean, documented Python.</p>
-  <p>
-    <a href="https://github.com/gulp7096">GitHub: gulp7096</a> &middot;
-    Upwork: “Python Developer | Web Scraping, API Automation &amp; QA”
-  </p>
 
   <h2>What I do</h2>
-  <div class="card">
-    <h3>Web scraping &amp; data QA</h3>
-    <p>Playwright scrapers for JavaScript-heavy and legacy sites, Pandas cleaning and strict type enforcement, deduplication, and pytest suites that validate every column. Selectors are verified against the live DOM, not from memory.</p>
-  </div>
-  <div class="card">
-    <h3>API &amp; webhook middleware</h3>
-    <p>Replacing Zapier/Make with FastAPI microservices: custom integrations, webhook handlers, and data sync between the tools a business already runs.</p>
-  </div>
-  <div class="card">
-    <h3>OpenAPI docs, QA automation &amp; SOPs</h3>
-    <p>OpenAPI 3.1 specs, Playwright/Pytest regression suites, and written SOPs so the system keeps working after handover.</p>
+  <div class="services">
+    <div class="card">
+      <h3>Web scraping &amp; data QA</h3>
+      <p>Playwright scrapers for JavaScript-heavy and legacy sites, Pandas cleaning and strict type enforcement, deduplication, and pytest suites that validate every column. Selectors are verified against the live DOM, not from memory.</p>
+      <p class="meta">Playwright · Pandas · pytest</p>
+    </div>
+    <div class="card">
+      <h3>API &amp; webhook middleware</h3>
+      <p>Replacing Zapier/Make with FastAPI microservices: custom integrations, webhook handlers, and data sync between the tools a business already runs.</p>
+      <p class="meta">FastAPI · Pydantic · SQLite</p>
+    </div>
+    <div class="card">
+      <h3>OpenAPI docs, QA automation &amp; SOPs</h3>
+      <p>OpenAPI 3.1 specs, Playwright/Pytest regression suites, and written SOPs so the system keeps working after handover.</p>
+      <p class="meta">OpenAPI 3.1 · pytest · SOP</p>
+    </div>
   </div>
 
   <h2>Skills</h2>
@@ -46,17 +90,17 @@
     <span class="pill">Python</span><span class="pill">Playwright</span><span class="pill">FastAPI</span><span class="pill">Pandas</span><span class="pill">Pytest</span><span class="pill">Web Scraping</span><span class="pill">Data Extraction</span><span class="pill">API Integration</span><span class="pill">Webhooks</span><span class="pill">OpenAPI</span><span class="pill">Docker</span><span class="pill">PostgreSQL</span><span class="pill">Data Cleaning</span><span class="pill">ETL</span><span class="pill">QA Automation</span>
   </p>
 
-  <h2>Proof of work: Hacker News front-page pipeline</h2>
+  <h2 id="proof">Proof of work: Hacker News front-page pipeline</h2>
   <p>Headless Playwright extraction of the live Hacker News top 30 — rank, title, domain, points, submitter, and comment count — by pairing title rows and detail rows in the DOM without fragile XPaths. Pandas enforces strict types before exporting <code>hn_top30.csv</code>, ready to load into PostgreSQL.</p>
-  <p><strong>Verified 2026-11-12: 6/6 pytest tests passing</strong> — exactly 30 rows, no nulls or blanks in rank/title, integer types for rank/points/comment count, submitter populated on every row, and no empty values except domain (Ask HN / text posts legitimately have none).</p>
-  <p>The part that matters: independent verification caught a defect the first test suite missed — the original submitter selector relied on a CSS class (<code>.hnuser</code>) no longer present on live Hacker News, leaving the submitter column empty. I fixed it with a structural attribute selector (<code>a[href^="user?id="]</code>) and added tests so that failure cannot pass silently again.</p>
+  <p class="meta">Verified 2026-11-12: 6/6 pytest tests passing — exactly 30 rows, no nulls or blanks in rank/title, integer types for rank/points/comment count, submitter populated on every row, and no empty values except domain (Ask HN / text posts legitimately have none)</p>
+  <p><strong>The part that matters:</strong> independent verification caught a defect the first test suite missed — the original submitter selector relied on a CSS class (<code>.hnuser</code>) no longer present on live Hacker News, leaving the submitter column empty. I fixed it with a structural attribute selector (<code>a[href^="user?id="]</code>) and added tests so that failure cannot pass silently again.</p>
   <table>
-    <tr><th>Rank</th><th>Title</th><th>Domain</th><th>Points</th><th>Submitter</th><th>Comments</th></tr>
-    <tr><td>1</td><td>Jensen Huang resigns</td><td>apnews.com</td><td>1859</td><td>lldb</td><td>1879</td></tr>
-    <tr><td>2</td><td>Rust 1.100.0</td><td>github.com/rust-lang</td><td>107</td><td>thesuperbigfrog</td><td>15</td></tr>
-    <tr><td>3</td><td>Gemini 4 Hydrogen</td><td>blog.google</td><td>184</td><td>dvaplima</td><td>109</td></tr>
-    <tr><td>4</td><td>Ask HN: Microsoft/Azure Outage?</td><td>—</td><td>99</td><td>nazgulsenpai</td><td>32</td></tr>
-    <tr><td>5</td><td>Abandoned Quake 4 expansion finished by modders and now playable</td><td>moddb.com</td><td>165</td><td>klaussilveira</td><td>60</td></tr>
+    <tr><th class="num">Rank</th><th>Title</th><th>Domain</th><th class="num">Points</th><th>Submitter</th><th class="num">Comments</th></tr>
+    <tr><td class="num">1</td><td>Jensen Huang resigns</td><td>apnews.com</td><td class="num">1859</td><td>lldb</td><td class="num">1879</td></tr>
+    <tr><td class="num">2</td><td>Rust 1.100.0</td><td>github.com/rust-lang</td><td class="num">107</td><td>thesuperbigfrog</td><td class="num">15</td></tr>
+    <tr><td class="num">3</td><td>Gemini 4 Hydrogen</td><td>blog.google</td><td class="num">184</td><td>dvaplima</td><td class="num">109</td></tr>
+    <tr><td class="num">4</td><td>Ask HN: Microsoft/Azure Outage?</td><td>—</td><td class="num">99</td><td>nazgulsenpai</td><td class="num">32</td></tr>
+    <tr><td class="num">5</td><td>Abandoned Quake 4 expansion finished by modders and now playable</td><td>moddb.com</td><td class="num">165</td><td>klaussilveira</td><td class="num">60</td></tr>
   </table>
   <p>Full files, as run: <a href="hn_top30.csv">hn_top30.csv</a> (30 rows) &middot; <a href="scraper.py">scraper.py</a> &middot; <a href="verify_deliverable.py">verify_deliverable.py</a> (6 tests) &middot; <a href="Proposal-HN-Frontpage-QA.md">client proposal</a></p>
   <p>Run it yourself:</p>
@@ -65,33 +109,33 @@ pytest verify_deliverable.py -v</pre>
 
   <h2>Proof of work: Webhook-to-CRM sync microservice</h2>
   <p>A FastAPI microservice that replaces a fragile Zapier zap: it receives contact-form webhooks, validates them with Pydantic, deduplicates by email, forwards each new contact to the downstream CRM, and logs every sync to SQLite — so no lead ever disappears silently.</p>
-  <p><strong>Verified 2026-11-12: 6/6 pytest tests passing</strong> — valid submission syncs, invalid email and missing fields rejected with 422, duplicate email returns the original contact without calling the CRM twice, downstream failure returns 502 and is logged as failed.</p>
-  <p>Verified live against the real JSONPlaceholder CRM endpoint: a live submission returned 201 with <code>crm_id 11</code>, a repeat of the same email returned 200 <code>duplicate</code>, and the sync log held exactly one row. The part that matters: verification caught a real bug the first test run missed — failed submissions were never written to the log, because the error path rolled the insert back. Fixed with an explicit commit before raising the 502, and the live run proved the fix.</p>
+  <p class="meta">Verified 2026-11-12: 6/6 pytest tests passing — valid submission syncs, invalid email and missing fields rejected with 422, duplicate email returns the original contact without calling the CRM twice, downstream failure returns 502 and is logged as failed</p>
+  <p>Verified live against the real JSONPlaceholder CRM endpoint: a live submission returned 201 with <code>crm_id 11</code>, a repeat of the same email returned 200 <code>duplicate</code>, and the sync log held exactly one row. <strong>The part that matters:</strong> verification caught a real bug the first test run missed — failed submissions were never written to the log, because the error path rolled the insert back. Fixed with an explicit commit before raising the 502, and the live run proved the fix.</p>
   <p>Full files, as run: <a href="webhook_app.py">webhook_app.py</a> &middot; <a href="webhook_test_app.py">webhook_test_app.py</a> (6 tests) &middot; <a href="webhook_README.md">README</a> &middot; <a href="webhook_verification_log.txt">verification log</a></p>
   <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/test_app.py -v</code> (see the README for the project layout).</p>
 
   <h2>Proof of work: OpenAPI spec + regression suite + SOP for an inventory API</h2>
   <p>A small business had a working inventory API with no documentation, no regression suite, and no runbook. I delivered the full package: a hand-written OpenAPI 3.1 spec, a 14-test pytest regression suite, and a plain-English SOP for the owner.</p>
-  <p><strong>Verified 2026-11-12: 14/14 pytest tests passing</strong> — full CRUD, duplicate SKU blocked with 409, bad data rejected with 422, unknown SKUs 404, list filters, and a spec-conformance test that fails if the spec and the app ever drift apart.</p>
-  <p>The part that matters: I verified the spec against the live app independently, not just through its own test — fetching the server's real <code>/openapi.json</code> and comparing it field by field. That caught a real gap the suite missed: the spec's 422 responses were empty placeholders while the live schema uses a proper <code>HTTPValidationError</code> definition. Fixed, and the two now match exactly.</p>
+  <p class="meta">Verified 2026-11-12: 14/14 pytest tests passing — full CRUD, duplicate SKU blocked with 409, bad data rejected with 422, unknown SKUs 404, list filters, and a spec-conformance test that fails if the spec and the app ever drift apart</p>
+  <p><strong>The part that matters:</strong> I verified the spec against the live app independently, not just through its own test — fetching the server's real <code>/openapi.json</code> and comparing it field by field. That caught a real gap the suite missed: the spec's 422 responses were empty placeholders while the live schema uses a proper <code>HTTPValidationError</code> definition. Fixed, and the two now match exactly.</p>
   <p>Full files, as run: <a href="inventory_app.py">inventory_app.py</a> &middot; <a href="inventory_openapi.yaml">inventory_openapi.yaml</a> &middot; <a href="inventory_test_api.py">inventory_test_api.py</a> (14 tests) &middot; <a href="inventory_SOP.md">SOP</a> &middot; <a href="inventory_verification_log.txt">verification log</a></p>
   <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/test_api.py -v</code> (see the README for the project layout).</p>
 
   <h2>Proof of work: Paginated catalogue scraper</h2>
   <p>A retailer wanted their full online catalogue in a spreadsheet. I scraped all 1,000 books from books.toscrape.com — title, price, star rating, availability, category, and product URL — following the next-page link through all 50 pages until it was gone, with no hardcoded page count.</p>
-  <p><strong>Verified 2026-11-12: 7/7 pytest tests passing</strong> — exactly 1,000 rows, the 6 columns present, no nulls, prices all positive floats, ratings all integers 1–5, every product URL unique, and every category populated.</p>
-  <p>The part that matters: I spot-checked rows against the live site directly — the first book's page shows Poetry and £51.77, the last shows Travel and £26.08, exactly as the CSV says. The scrape took 25 minutes because each book's category comes from its own detail page; slow, but the data is real.</p>
+  <p class="meta">Verified 2026-11-12: 7/7 pytest tests passing — exactly 1,000 rows, the 6 columns present, no nulls, prices all positive floats, ratings all integers 1–5, every product URL unique, and every category populated</p>
+  <p><strong>The part that matters:</strong> I spot-checked rows against the live site directly — the first book's page shows Poetry and £51.77, the last shows Travel and £26.08, exactly as the CSV says. The scrape took 25 minutes because each book's category comes from its own detail page; slow, but the data is real.</p>
   <p>Full files, as run: <a href="books.csv">books.csv</a> (1,000 rows) &middot; <a href="books_scraper.py">books_scraper.py</a> &middot; <a href="books_verify_deliverable.py">books_verify_deliverable.py</a> (7 tests) &middot; <a href="books_README.md">README</a> &middot; <a href="books_verification_log.txt">verification log</a></p>
   <p>Run it yourself: <code>bash run_demo.sh</code> then <code>pytest tests/verify_deliverable.py -v</code> (see the README for the project layout).</p>
 
   <h2>Proof of work: Research report — L&amp;G Cleaning Services (Aurora)</h2>
   <p>A family-owned cleaning company in Aurora has a great reputation (4.8 stars, 60 Google reviews) — but the owner personally confirms every quote and appointment, so he is the bottleneck on all intake. I researched the business from its own public site and reviews, documented the bottleneck in its own words, and proposed a specific product: an automated intake, quoting &amp; scheduling service that turns standard bookings into a zero-touch flow and routes only the complex jobs to the owner.</p>
-  <p>The part that matters: the report proves the issue is an owner-time and growth-ceiling problem, not a reputation problem — and the data needed to automate already exists in structured form on their quote form. Every claim in it traces to a public source; the unknowns are listed as questions for the owner, not filled in by guessing.</p>
+  <p><strong>The part that matters:</strong> the report proves the issue is an owner-time and growth-ceiling problem, not a reputation problem — and the data needed to automate already exists in structured form on their quote form. Every claim in it traces to a public source; the unknowns are listed as questions for the owner, not filled in by guessing.</p>
   <p>Full report: <a href="lg_research_report.md">lg_research_report.md</a> &middot; Try the concept demo: <a href="lg_quote_demo.html">instant-quote demo</a> (illustrative rules — exact pricing locks with the owner before launch)</p>
 
   <h2>Proof of work: Research report — All World Automotive (Aurora)</h2>
   <p>An independent auto repair shop in Aurora does good work at fair prices — long-time customers say so — but it takes in more cars than it can handle and then goes silent: 3.6 stars, 50 reviews, an unclaimed profile, and no website of its own. I researched the business from its OpenBay listing and public reviews, documented the overbooking pattern in the reviewers&rsquo; own words, and proposed a specific product: a capacity-aware booking and status-communication service that caps daily intake by real bay capacity and texts customers at every stage of the repair.</p>
-  <p>The part that matters: the report proves the issue is operations and communication, not workmanship — and the unknowns (bay count, daily intake, how bookings arrive today) are listed as questions for the owner, not filled in by guessing.</p>
+  <p><strong>The part that matters:</strong> the report proves the issue is operations and communication, not workmanship — and the unknowns (bay count, daily intake, how bookings arrive today) are listed as questions for the owner, not filled in by guessing.</p>
   <p>Full report: <a href="allworld_research_report.md">allworld_research_report.md</a> &middot; Try the concept demo: <a href="allworld_demo.html">booking &amp; status demo</a> (illustrative capacity — real numbers lock with the owner before launch)</p>
 
   <h2>How I work</h2>

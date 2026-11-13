@@ -4,23 +4,34 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>L&amp;G Cleaning Services — Instant Quote Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;margin:0;color:#1a1a1a;background:#fafafa}
-  main{max-width:680px;margin:0 auto;padding:32px 20px 64px}
-  h1{font-size:1.6rem;margin:.2em 0 .1em} h2{margin-top:2em;border-top:1px solid #ddd;padding-top:1em}
-  .tag{color:#555} .card{background:#fff;border:1px solid #ddd;border-radius:10px;padding:18px 20px;margin:14px 0}
-  .note{background:#fff8e1;border:1px solid #f0d48a;border-radius:10px;padding:14px 18px;margin:14px 0;font-size:.95em}
-  .result{background:#eef7ee;border:1px solid #b5d8b5;border-radius:10px;padding:18px 20px;margin:14px 0}
-  label{display:block;margin:12px 0 4px;font-weight:600}
-  select,input[type=date],input[type=text],input[type=tel],input[type=email]{width:100%;padding:9px 10px;border:1px solid #bbb;border-radius:8px;font-size:1em;box-sizing:border-box}
-  .row{display:flex;gap:12px}.row>div{flex:1}
-  .checks label{display:inline-block;font-weight:400;margin:6px 14px 6px 0}
-  button{background:#0b5fff;color:#fff;border:0;border-radius:8px;padding:12px 22px;font-size:1em;cursor:pointer;margin-top:16px}
-  button:hover{background:#094fd1}
-  table{border-collapse:collapse;width:100%;font-size:.95em} th,td{border-bottom:1px solid #e5e5e5;text-align:left;padding:6px 8px}
-  td:last-child,th:last-child{text-align:right}
-  .total{font-weight:700;font-size:1.15em}
-  footer{color:#666;font-size:.9em;margin-top:3em}
+  :root{--page:#f7f4ee;--card:#fdfbf7;--raised:#efe9df;--ink:#1f1b16;--secondary:#5e554a;--muted:#7b7266;--line:rgba(31,27,22,.08);--border:#d8d2c6;--accent:#3f6212}
+  body{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;margin:0;color:var(--ink);background:var(--page);font-size:16px}
+  main{max-width:720px;margin:0 auto;padding:32px 24px 64px}
+  h1{font-size:36px;line-height:1.1;font-weight:500;letter-spacing:-.02em;margin:16px 0 8px}
+  h2{font-size:24px;font-weight:500;margin:32px 0 16px;border-top:1px solid var(--line);padding-top:24px}
+  p{margin:0 0 16px}
+  strong{font-weight:500}
+  a{color:var(--accent)}
+  .tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--muted);margin:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:16px 0}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:16px 0;font-size:15px}
+  .result{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:20px;margin:16px 0}
+  .result h2{margin:0 0 16px;border:0;padding:0}
+  label{display:block;margin:16px 0 8px;font-weight:500;font-size:14px}
+  select,input[type=date],input[type=text],input[type=tel],input[type=email]{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:16px;box-sizing:border-box;background:var(--card);color:var(--ink);font-family:inherit}
+  .row{display:flex;gap:16px}.row>div{flex:1}
+  .checks label{display:inline-block;font-weight:400;margin:8px 16px 8px 0}
+  button{background:var(--ink);color:#fdfbf7;border:0;border-radius:8px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;margin-top:16px;min-height:48px}
+  button:hover{background:#3a332b}
+  table{border-collapse:collapse;width:100%;font-size:15px;font-variant-numeric:tabular-nums} th,td{border-bottom:1px solid var(--line);text-align:left;padding:8px}
+  td:last-child,th:last-child{text-align:right;font-family:"IBM Plex Mono",ui-monospace,monospace}
+  .total{font-weight:500;font-size:18px}
+  footer{color:var(--muted);font-size:14px;margin-top:48px}
+  @media (max-width:720px){ .row{flex-direction:column;gap:0} h1{font-size:32px} main{padding:24px 20px 48px} }
 </style>
 </head>
 <body>
@@ -103,7 +114,7 @@
       </div>
     </div>
 
-    <button id="go" type="button">Get my instant quote</button>
+    <button id="go" type="button">Get instant quote</button>
   </div>
 
   <div id="out"></div>
@@ -166,7 +177,7 @@ document.getElementById("go").addEventListener("click", function () {
   let head, body;
   if (svc.auto) {
     head = "Your firm quote: " + money(total);
-    body = "<p><strong>Confirmed.</strong> In the live system this slot would be held and a confirmation text and email sent instantly — no waiting on a callback. (This demo does not book anything or send messages.)</p>";
+    body = "<p><strong>Confirmed</strong> — in the live system this slot would be held and a confirmation text and email sent instantly — no waiting on a callback. (This demo does not book anything or send messages.)</p>";
   } else {
     head = "Your estimate: " + money(total) + " — sent to Luis for confirmation";
     body = "<p>" + svc.label + " jobs are confirmed personally by Luis, as they are today. In the live system this request would go straight to his approval queue with the estimate attached — he confirms, and the customer gets the confirmation automatically.</p>";
@@ -174,7 +185,7 @@ document.getElementById("go").addEventListener("click", function () {
   if (date) body += "<p>Requested: " + date + ", arrival " + win + ".</p>";
 
   document.getElementById("out").innerHTML =
-    "<div class=\"result\"><h2 style=\"margin-top:0;border:0;padding:0\">" + head + "</h2>" +
+    "<div class=\"result\"><h2>" + head + "</h2>" +
     "<table>" + rows + "</table>" + body + "</div>";
   document.getElementById("out").scrollIntoView({behavior: "smooth"});
 });
