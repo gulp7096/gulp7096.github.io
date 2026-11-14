@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Brothers Plumbing, Heating &amp; Electric: Callback Log Demo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--page:#edf0ea;--card:#f6f8f4;--raised:#dde2d8;--ink:#1f1b16;--secondary:#5e554a;--muted:#6b6156;--line:rgba(31,27,22,.08);--border:#c9cec2;--accent:#1e40af;--accent-soft:rgba(30,64,175,.08);--warn:#92400e;--warn-soft:rgba(146,64,14,.08);--ok:#166534;--ok-soft:rgba(22,101,52,.08)}
+  body{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;margin:0;color:var(--ink);background:var(--page);font-size:16px}
+  main{max-width:880px;margin:0 auto;padding:32px 24px 64px}
+  h1{font-size:36px;line-height:1.1;font-weight:500;letter-spacing:-.02em;margin:16px 0 8px}
+  h2{font-size:24px;font-weight:500;margin:32px 0 16px;border-top:1px solid var(--line);padding-top:24px}
+  h3{font-size:18px;font-weight:500;margin:0 0 8px}
+  p{margin:0 0 16px}
+  strong{font-weight:500}
+  a{color:var(--accent)}
+  .tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--muted);margin:0}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px;margin:16px 0}
+  .note{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px 20px;margin:16px 0;font-size:15px}
+  .note strong{font-weight:500}
+  label{display:block;margin:16px 0 8px;font-weight:500;font-size:14px}
+  select,input[type=text],input[type=tel]{width:100%;padding:12px;border:1px solid var(--border);border-radius:8px;font-size:16px;box-sizing:border-box;background:var(--card);color:var(--ink);font-family:inherit}
+  .row{display:flex;gap:16px}.row>div{flex:1}
+  .panels{display:grid;grid-template-columns:1fr 1.25fr;gap:16px;align-items:start}
+  .panels>*{min-width:0}
+  button{background:var(--ink);color:#fdfbf7;border:0;border-radius:8px;padding:12px 20px;font-size:16px;font-weight:500;cursor:pointer;margin-top:16px;min-height:48px}
+  button:hover{background:#3a332b}
+  button.secondary{background:var(--card);color:var(--ink);border:1px solid var(--border)}
+  button.secondary:hover{background:var(--raised)}
+  button.small{padding:6px 12px;font-size:14px;min-height:36px;margin-top:0;white-space:nowrap}
+  .sms{background:var(--accent-soft);border:1px solid rgba(30,64,175,.2);border-radius:12px;padding:16px 20px;margin:16px 0;font-size:15px}
+  .sms .from{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--muted);margin:0 0 4px}
+  .sms p{margin:0}
+  .pending-banner{background:var(--warn-soft);border:1px solid rgba(146,64,14,.25);border-radius:12px;padding:12px 16px;margin:0 0 16px;font-size:15px}
+  .pending-banner.ok{background:var(--ok-soft);border-color:rgba(22,101,52,.25)}
+  .pending-banner strong{font-weight:500}
+  table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+  th,td{border-bottom:1px solid var(--line);text-align:left;padding:10px 8px;vertical-align:top}
+  th{font-size:13px;color:var(--muted);font-weight:500}
+  .status{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;padding:2px 8px;border-radius:999px;white-space:nowrap}
+  .status.pending{background:var(--warn-soft);color:var(--warn)}
+  .status.done{background:var(--ok-soft);color:var(--ok)}
+  .example-tag{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:11px;color:var(--muted)}
+  .empty{color:var(--muted);font-size:15px;padding:16px 0}
+  .table-scroll{overflow-x:auto;margin:0 -8px;padding:0 8px}
+  .fixes{margin:0;padding-left:20px}
+  .fixes li{margin-bottom:8px}
+  footer{color:var(--muted);font-size:14px;margin-top:48px}
+  .error{color:#991b1b;font-size:14px;margin:8px 0 0;display:none}
+  @media (max-width:720px){ .panels{grid-template-columns:1fr} .row{flex-direction:column;gap:0} h1{font-size:32px} main{padding:24px 20px 48px} table{font-size:13px} }
+</style>
+</head>
+<body>
+<main>
+  <p class="tag">Concept demo &middot; built by Chris, Python Developer | Web Scraping, API Automation &amp; QA</p>
+  <h1>Callback log: Brothers Plumbing, Heating &amp; Electric</h1>
+  <p>When a customer asks for a callback, the request has to reach someone. Today it can fall out of the process entirely. This demo shows a log that records every request the moment it arrives, so nothing gets lost.</p>
+
+  <div class="note"><strong>Concept demo, not Brothers&rsquo; system.</strong> This page shows how a callback log <em>could</em> work for Brothers, built around the gap their own BBB response describes: a return-call request &ldquo;was also not initiated&rdquo; because there was no record of it. Brothers has not endorsed this demo.</div>
+
+  <div class="panels">
+    <div class="card">
+      <h3>Customer view</h3>
+      <p>Request a callback. The request is logged on the right, and you get a confirmation text.</p>
+      <label for="name">Your name</label>
+      <input type="text" id="name" placeholder="e.g. Maria G." autocomplete="name">
+      <label for="phone">Phone number</label>
+      <input type="tel" id="phone" placeholder="e.g. (303) 555-0147" autocomplete="tel">
+      <label for="issue">What do you need?</label>
+      <select id="issue">
+        <option value="Plumbing">Plumbing</option>
+        <option value="Heating">Heating</option>
+        <option value="Electrical">Electrical</option>
+        <option value="Other">Something else</option>
+      </select>
+      <label for="when">Best time to call back</label>
+      <select id="when">
+        <option value="this morning">This morning</option>
+        <option value="this afternoon">This afternoon</option>
+        <option value="tomorrow morning">Tomorrow morning</option>
+        <option value="any time">Any time</option>
+      </select>
+      <p class="error" id="formError">Add a name and a phone number so the office can reach you.</p>
+      <button id="submitBtn" type="button">Request a callback</button>
+      <button id="missedBtn" type="button" class="secondary">Simulate a missed call</button>
+      <div class="sms" id="smsBox" hidden>
+        <p class="from" id="smsFrom">Text to customer</p>
+        <p id="smsText"></p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Office view: the callback log</h3>
+      <p>Every request lands here with a timestamp and a status. A request stays pending until someone marks it followed up, so it cannot fall out of the process unnoticed.</p>
+      <div class="pending-banner" id="pendingBanner"><strong>2 requests pending.</strong> Two customers are waiting for a call back.</div>
+      <div id="logWrap" class="table-scroll">
+        <table>
+          <thead>
+            <tr><th>Time</th><th>Customer</th><th>Issue</th><th>Source</th><th>Status</th><th></th></tr>
+          </thead>
+          <tbody id="logBody"></tbody>
+        </table>
+      </div>
+      <p class="empty" id="emptyMsg" hidden>No requests yet. Submit the form or simulate a missed call to see one land in the log.</p>
+    </div>
+  </div>
+
+  <h2>What this fixes</h2>
+  <ul class="fixes">
+    <li><strong>A callback request is logged the moment it arrives</strong>, with a timestamp and a status. There is always a record, so a request cannot be &ldquo;not initiated&rdquo; because nobody wrote it down.</li>
+    <li><strong>A missed call gets an automatic text back</strong>, so the customer is not left waiting in silence while the office catches up.</li>
+    <li><strong>The office sees every pending request in one place</strong>, so a follow-up cannot be forgotten after a busy morning.</li>
+  </ul>
+
+  <footer>Built by Chris &middot; <a href="mailto:chris@milehighwebplug.xyz">chris@milehighwebplug.xyz</a> &middot; Portfolio: <a href="https://gulp7096.github.io/">gulp7096.github.io</a></footer>
+</main>
+<script>
+(function(){
+  var logBody = document.getElementById('logBody');
+  var pendingBanner = document.getElementById('pendingBanner');
+  var emptyMsg = document.getElementById('emptyMsg');
+  var smsBox = document.getElementById('smsBox');
+  var smsText = document.getElementById('smsText');
+  var smsFrom = document.getElementById('smsFrom');
+  var formError = document.getElementById('formError');
+  var nextId = 1;
+  var requests = [];
+
+  function nowTime(){
+    var d = new Date();
+    var h = d.getHours(), m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12; if (h === 0) h = 12;
+    return h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+
+  function pendingCount(){
+    return requests.filter(function(r){ return r.status === 'Pending'; }).length;
+  }
+
+  function renderBanner(){
+    var n = pendingCount();
+    if (n === 0) {
+      pendingBanner.classList.add('ok');
+      pendingBanner.innerHTML = '<strong>All caught up.</strong> No pending requests.';
+    } else {
+      pendingBanner.classList.remove('ok');
+      pendingBanner.innerHTML = '<strong>' + n + (n === 1 ? ' request' : ' requests') + ' pending.</strong> ' + (n === 1 ? 'One customer is' : n + ' customers are') + ' waiting for a call back.';
+    }
+  }
+
+  function renderLog(){
+    logBody.innerHTML = '';
+    emptyMsg.hidden = requests.length > 0;
+    requests.forEach(function(r){
+      var tr = document.createElement('tr');
+      var tdTime = document.createElement('td'); tdTime.textContent = r.time;
+      var tdName = document.createElement('td');
+      tdName.textContent = r.name + ' ' + r.phone;
+      if (r.example) {
+        var tag = document.createElement('span');
+        tag.className = 'example-tag';
+        tag.textContent = ' example';
+        tdName.appendChild(tag);
+      }
+      var tdIssue = document.createElement('td'); tdIssue.textContent = r.issue;
+      var tdSource = document.createElement('td'); tdSource.textContent = r.source;
+      var tdStatus = document.createElement('td');
+      var pill = document.createElement('span');
+      pill.className = 'status ' + (r.status === 'Pending' ? 'pending' : 'done');
+      pill.textContent = r.status;
+      tdStatus.appendChild(pill);
+      var tdBtn = document.createElement('td');
+      if (r.status === 'Pending') {
+        var btn = document.createElement('button');
+        btn.className = 'small secondary';
+        btn.type = 'button';
+        btn.textContent = 'Mark followed up';
+        btn.addEventListener('click', function(){ markFollowedUp(r.id); });
+        tdBtn.appendChild(btn);
+      }
+      tr.appendChild(tdTime); tr.appendChild(tdName); tr.appendChild(tdIssue);
+      tr.appendChild(tdSource); tr.appendChild(tdStatus); tr.appendChild(tdBtn);
+      logBody.appendChild(tr);
+    });
+    renderBanner();
+  }
+
+  function addRequest(r){
+    r.id = nextId++;
+    r.time = nowTime();
+    r.status = 'Pending';
+    requests.unshift(r);
+    renderLog();
+  }
+
+  function markFollowedUp(id){
+    requests.forEach(function(r){ if (r.id === id) r.status = 'Followed up'; });
+    renderLog();
+  }
+
+  function showSms(from, text){
+    smsFrom.textContent = from;
+    smsText.textContent = text;
+    smsBox.hidden = false;
+  }
+
+  // Seed with two clearly labeled example entries so the log is not empty on load.
+  addRequest({name:'Maria G.', phone:'(303) 555-0147', issue:'Heating', source:'Form', example:true});
+  addRequest({name:'Unknown caller', phone:'(303) 555-0199', issue:'Called outside office hours', source:'Missed call', example:true});
+
+  document.getElementById('submitBtn').addEventListener('click', function(){
+    var name = document.getElementById('name').value.trim();
+    var phone = document.getElementById('phone').value.trim();
+    var digits = phone.replace(/\D/g, '');
+    if (!name || digits.length < 7) {
+      formError.style.display = 'block';
+      return;
+    }
+    formError.style.display = 'none';
+    var issue = document.getElementById('issue').value;
+    var when = document.getElementById('when').value;
+    addRequest({name:name, phone:phone, issue:issue, source:'Form'});
+    showSms('Text to ' + name + ' at ' + phone,
+      'Hi ' + name + ', this is Brothers Plumbing, Heating & Electric. We got your callback request about ' + issue.toLowerCase() + '. We will call you ' + when + ' at ' + phone + '. Reply STOP to opt out.');
+    document.getElementById('name').value = '';
+    document.getElementById('phone').value = '';
+  });
+
+  document.getElementById('missedBtn').addEventListener('click', function(){
+    addRequest({name:'Unknown caller', phone:'(303) 555-0147', issue:'Called outside office hours', source:'Missed call'});
+    showSms('Automatic reply to a missed call',
+      'Hi, this is Brothers Plumbing, Heating & Electric. We missed your call. Reply to this text to book a callback, or call us back at (303) 555-0100.');
+  });
+})();
+</script>
+</body>
+</html>
