@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>L&amp;G Cleaning Services — Instant Quote Demo</title>
+<title>L&amp;G Cleaning Services: Instant Quote Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--page:#f7f4ee;--card:#fdfbf7;--raised:#efe9df;--ink:#1f1b16;--secondary:#5e554a;--muted:#7b7266;--line:rgba(31,27,22,.08);--border:#d8d2c6;--accent:#3f6212}
+  :root{--page:#edf0ea;--card:#f6f8f4;--raised:#dde2d8;--ink:#1f1b16;--secondary:#5e554a;--muted:#6b6156;--line:rgba(31,27,22,.08);--border:#c9cec2;--accent:#3f6212}
   body{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;margin:0;color:var(--ink);background:var(--page);font-size:16px}
   main{max-width:720px;margin:0 auto;padding:32px 24px 64px}
   h1{font-size:36px;line-height:1.1;font-weight:500;letter-spacing:-.02em;margin:16px 0 8px}
@@ -36,20 +36,20 @@
 </head>
 <body>
 <main>
-  <p class="tag">Concept demo &middot; built by Chris — Python Developer | Web Scraping, API Automation &amp; QA</p>
-  <h1>Instant quote — L&amp;G Cleaning Services</h1>
-  <p>Pick a service and tell us about your space. Standard home cleans get a firm quote and a confirmed appointment on the spot. Complex jobs go to Luis for a personal confirmation, exactly as they do today.</p>
+  <p class="tag">Concept demo &middot; built by Chris, Python Developer | Web Scraping, API Automation &amp; QA</p>
+  <h1>Instant quote: L&amp;G Cleaning Services</h1>
+  <p>Pick a service and tell us about your space. Standard home cleans get a firm quote and a confirmed appointment on the spot. Complex jobs go to Luis for a personal confirmation, as they do today.</p>
 
-  <div class="note"><strong>Concept demo, not L&amp;G&rsquo;s booking system.</strong> This page shows how automated quoting <em>could</em> work for L&amp;G, using their published price ranges. The quote rules below are illustrative — exact pricing is locked with the owner before anything goes live. L&amp;G has not endorsed this demo.</div>
+  <div class="note"><strong>Concept demo, not L&amp;G&rsquo;s booking system.</strong> This page shows how automated quoting <em>could</em> work for L&amp;G, using their published price ranges. The quote rules below are illustrative; exact pricing is locked with the owner before anything goes live. L&amp;G has not endorsed this demo.</div>
 
   <div class="card">
     <label for="service">What kind of cleaning do you need?</label>
     <select id="service">
-      <option value="home">Home &amp; Apartment — typical $120–$260</option>
-      <option value="deep">Deep Clean — typical $220–$450</option>
-      <option value="move">Move In / Out — typical $260–$550</option>
-      <option value="post">Post-Construction — typical $300–$700</option>
-      <option value="office">Office / Commercial — typical $180–$450</option>
+      <option value="home">Home &amp; Apartment, typical $120–$260</option>
+      <option value="deep">Deep Clean, typical $220–$450</option>
+      <option value="move">Move In / Out, typical $260–$550</option>
+      <option value="post">Post-Construction, typical $300–$700</option>
+      <option value="office">Office / Commercial, typical $180–$450</option>
     </select>
 
     <div class="row">
@@ -83,9 +83,9 @@
     <label for="freq">How often?</label>
     <select id="freq">
       <option value="1">One-time</option>
-      <option value="0.8">Weekly — 20% off</option>
-      <option value="0.85" selected>Every two weeks — 15% off</option>
-      <option value="0.9">Monthly — 10% off</option>
+      <option value="0.8">Weekly, 20% off</option>
+      <option value="0.85" selected>Every two weeks, 15% off</option>
+      <option value="0.9">Monthly, 10% off</option>
     </select>
 
     <label>Add-ons</label>
@@ -96,7 +96,7 @@
       <label><input type="checkbox" id="addon-laundry"> Laundry &amp; ironing (+$20)</label>
     </div>
 
-    <label><input type="checkbox" id="senior"> Senior discount, 65+ (10% — cannot combine with a recurring discount; the larger discount applies)</label>
+    <label><input type="checkbox" id="senior"> Senior discount, 65+ (10%. Cannot combine with a recurring discount; the larger discount applies)</label>
 
     <div class="row">
       <div>
@@ -122,7 +122,7 @@
   <h2>How the quote is calculated (nothing hidden)</h2>
   <p>Base price starts at the low end of the service&rsquo;s published range, then adds $35 per bedroom beyond the first and $25 per bathroom beyond the first. The home-size adjustment ($20 for 1,500–2,500 sq ft, $40 over 2,500 sq ft) is included inside that cap, so the base clean never exceeds the published high end. Add-ons are flat fees on top, shown as their own line items. The frequency or senior discount applies last. In the real system these rules are locked with Luis; here they are illustrative.</p>
 
-  <footer>Demo built as part of a research report on L&amp;G Cleaning Services (Aurora, CO). Full report: <a href="lg_research_report.md">lg_research_report.md</a>. Portfolio: <a href="index.html">Chris — Python Developer</a>.</footer>
+  <footer>Demo built as part of a research report on L&amp;G Cleaning Services (Aurora, CO). Full report: <a href="lg_research_report.md">lg_research_report.md</a>. Portfolio: <a href="index.html">Chris, Python Developer</a>.</footer>
 </main>
 <script>
 const RANGES = {
@@ -177,10 +177,10 @@ document.getElementById("go").addEventListener("click", function () {
   let head, body;
   if (svc.auto) {
     head = "Your firm quote: " + money(total);
-    body = "<p><strong>Confirmed</strong> — in the live system this slot would be held and a confirmation text and email sent instantly — no waiting on a callback. (This demo does not book anything or send messages.)</p>";
+    body = "<p><strong>Confirmed</strong>. In the live system this slot would be held and a confirmation text and email sent. No waiting on a callback. (This demo does not book anything or send messages.)</p>";
   } else {
-    head = "Your estimate: " + money(total) + " — sent to Luis for confirmation";
-    body = "<p>" + svc.label + " jobs are confirmed personally by Luis, as they are today. In the live system this request would go straight to his approval queue with the estimate attached — he confirms, and the customer gets the confirmation automatically.</p>";
+    head = "Your estimate: " + money(total) + ", sent to Luis for confirmation";
+    body = "<p>" + svc.label + " jobs are confirmed by Luis, as they are today. In the live system this request would go to his approval queue with the estimate attached. He confirms, and the customer gets the confirmation.</p>";
   }
   if (date) body += "<p>Requested: " + date + ", arrival " + win + ".</p>";
 

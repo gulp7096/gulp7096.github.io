@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>All World Automotive — Booking &amp; Status Demo</title>
+<title>All World Automotive: Booking &amp; Status Demo</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  :root{--page:#f5f7fa;--card:#ffffff;--raised:#eceff4;--ink:#111827;--secondary:#4b5565;--muted:#6b7487;--line:rgba(17,24,39,.08);--border:#d1d5db;--accent:#0f766e}
+  :root{--page:#f5f7fa;--card:#ffffff;--raised:#eceff4;--ink:#111827;--secondary:#4b5565;--muted:#5f6a7d;--line:rgba(17,24,39,.08);--border:#d1d5db;--accent:#0f766e}
   body{font-family:"Instrument Sans",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;line-height:1.55;margin:0;color:var(--ink);background:var(--page);font-size:16px}
   main{max-width:720px;margin:0 auto;padding:32px 24px 64px}
   h1{font-size:36px;line-height:1.1;font-weight:500;letter-spacing:-.02em;margin:16px 0 8px}
@@ -40,21 +40,21 @@
 </head>
 <body>
 <main>
-  <p class="tag">Concept demo &middot; built by Chris — Python Developer | Web Scraping, API Automation &amp; QA</p>
-  <h1>Book a repair — All World Automotive</h1>
-  <p>Pick a service and a day. The shop only takes as many cars as its bays can handle that day — and once your car is in, you get a text at every stage instead of having to call and ask.</p>
+  <p class="tag">Concept demo &middot; built by Chris, Python Developer | Web Scraping, API Automation &amp; QA</p>
+  <h1>Book a repair: All World Automotive</h1>
+  <p>Pick a service and a day. The shop takes as many cars as its bays can handle that day, and no more. Once your car is in, you get a text at every stage instead of having to call and ask.</p>
 
-  <div class="note"><strong>Concept demo, not All World&rsquo;s booking system.</strong> This page shows how capacity-aware booking and status texts <em>could</em> work for All World, using their real services and hours (Tue–Sat, 8am–4pm). The bay and technician counts below are illustrative assumptions — the real numbers are locked with the owner before anything goes live. All World has not endorsed this demo.</div>
+  <div class="note"><strong>Concept demo, not All World&rsquo;s booking system.</strong> This page shows how capacity-aware booking and status texts <em>could</em> work for All World, using their real services and hours (Tue–Sat, 8am–4pm). The bay and technician counts below are illustrative assumptions; the real numbers are locked with the owner before anything goes live. All World has not endorsed this demo.</div>
 
   <div class="card">
     <label for="service">What does your car need?</label>
     <select id="service">
-      <option value="oil">Oil &amp; filter change — about 1 hour</option>
-      <option value="brakes">Brake pad replacement — about 2 hours</option>
-      <option value="tires">Tire rotation — about 1 hour</option>
-      <option value="diag">Check engine light diagnosis — about 1 hour</option>
-      <option value="align">Wheel alignment — about 1.5 hours</option>
-      <option value="ac">A/C diagnosis — about 1.5 hours</option>
+      <option value="oil">Oil &amp; filter change, about 1 hour</option>
+      <option value="brakes">Brake pad replacement, about 2 hours</option>
+      <option value="tires">Tire rotation, about 1 hour</option>
+      <option value="diag">Check engine light diagnosis, about 1 hour</option>
+      <option value="align">Wheel alignment, about 1.5 hours</option>
+      <option value="ac">A/C diagnosis, about 1.5 hours</option>
     </select>
 
     <div class="row">
@@ -90,9 +90,9 @@
   <div id="out"></div>
 
   <h2>How capacity works (nothing hidden)</h2>
-  <p>Demo assumptions: 3 bays, 2 technicians, maximum 6 cars per day. A booking counts against the day it is made for. When the day is full, the system says so immediately and offers the next open day instead of taking a car the shop cannot get to. In the real system these numbers come from the shop — the demo is only showing the mechanism.</p>
+  <p>Demo assumptions: 3 bays, 2 technicians, maximum 6 cars per day. A booking counts against the day it is made for. When the day is full, the system says so and offers the next open day instead of taking a car the shop cannot get to. In the real system these numbers come from the shop. The demo shows the mechanism.</p>
 
-  <footer>Demo built as part of a research report on All World Automotive (Aurora, CO). Full report: <a href="allworld_research_report.md">allworld_research_report.md</a>. Portfolio: <a href="index.html">Chris — Python Developer</a>.</footer>
+  <footer>Demo built as part of a research report on All World Automotive (Aurora, CO). Full report: <a href="allworld_research_report.md">allworld_research_report.md</a>. Portfolio: <a href="index.html">Chris, Python Developer</a>.</footer>
 </main>
 <script>
 const SERVICES = {
@@ -127,13 +127,13 @@ function nextAvailable(from) {
 }
 function smsText(stage, b) {
   const n = b.name || "there";
-  if (stage === 0) return "Hi " + n + ", All World Automotive here — we've received your car for " + b.service.label.toLowerCase() + ". We'll text you once diagnosis is done.";
-  if (stage === 1) return "Hi " + n + ", diagnosis is done on your car. " + b.service.label + " is underway — we'll text you when it's ready.";
+  if (stage === 0) return "Hi " + n + ", All World Automotive here. We've received your car for " + b.service.label.toLowerCase() + ". We'll text you once diagnosis is done.";
+  if (stage === 1) return "Hi " + n + ", diagnosis is done on your car. " + b.service.label + " is underway. We'll text you when it's ready.";
   if (stage === 2) return "Hi " + n + ", your car is in progress now (" + b.service.label + "). Estimated ready today by close, 4pm. We'll confirm when it's done.";
   return "Hi " + n + ", your car is ready for pickup at All World Automotive, 17084 E Quincy Ave. " + b.service.label + " complete. See you soon";
 }
 function delayText(b) {
-  return "Hi " + (b.name || "there") + ", All World Automotive here — your " + b.service.label.toLowerCase() + " is taking longer than expected. New estimated completion is tomorrow by 10am. We'll text you the moment it's ready. Sorry for the wait.";
+  return "Hi " + (b.name || "there") + ", All World Automotive here. Your " + b.service.label.toLowerCase() + " is taking longer than expected. New estimated completion is tomorrow by 10am. We'll text you the moment it's ready. Sorry for the wait.";
 }
 function renderStatus() {
   const b = booking;
@@ -169,18 +169,18 @@ document.getElementById("book").addEventListener("click", function () {
   if (!dateVal) { out.innerHTML = '<div class="full"><strong>Pick a date first</strong></div>'; return; }
   const date = new Date(dateVal + "T00:00:00");
   const today = new Date(); today.setHours(0, 0, 0, 0);
-  if (date < today) { out.innerHTML = '<div class="full"><strong>That date is in the past</strong> — pick today or a future day.</div>'; return; }
+  if (date < today) { out.innerHTML = '<div class="full"><strong>That date is in the past</strong>. Pick today or a future day.</div>'; return; }
   if (!isOpenDay(date)) {
-    out.innerHTML = '<div class="full"><strong>The shop is closed Sundays and Mondays</strong> — pick a Tuesday–Saturday. The next open day is ' + dayKey(nextAvailable(date) || addDays(date, 1)) + ".</div>";
+    out.innerHTML = '<div class="full"><strong>The shop is closed Sundays and Mondays</strong>. Pick a Tuesday–Saturday. The next open day is ' + dayKey(nextAvailable(date) || addDays(date, 1)) + ".</div>";
     return;
   }
   const booked = bookedOn(date);
   if (booked >= MAX_CARS_PER_DAY) {
     const next = nextAvailable(date);
-    out.innerHTML = '<div class="full"><h2>That day is full — ' + booked + " of " + MAX_CARS_PER_DAY + ' cars already booked</h2>' +
+    out.innerHTML = '<div class="full"><h2>That day is full: ' + booked + " of " + MAX_CARS_PER_DAY + ' cars already booked</h2>' +
       "<p>In the live system this is the point where the old way would have taken your car anyway. Here it stops: no more cars are accepted for " + dateVal + ".</p>" +
       (next ? "<p>Next available day: <strong>" + dayKey(next) + "</strong> (" + (MAX_CARS_PER_DAY - bookedOn(next)) + " slots open). Pick that date above to book it.</p>" : "") +
-      "<p>Or join the waitlist — the shop texts you first if a slot opens.</p></div>";
+      "<p>Or join the waitlist. The shop texts you first if a slot opens.</p></div>";
     return;
   }
   booking = {service: svc, date: dateVal, window: win, name: name, stage: 0, delayed: false};
