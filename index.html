@@ -35,6 +35,7 @@
   .pill{display:inline-block;background:var(--raised);border:1px solid var(--line);border-radius:6px;padding:4px 8px;margin:4px 4px 4px 0;font-size:13px}
   .meta{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:13px;color:var(--muted)}
   table{border-collapse:collapse;width:100%;font-size:14px;font-variant-numeric:tabular-nums}
+  .tablewrap{overflow-x:auto;margin:0 0 16px}
   th,td{border-bottom:1px solid var(--line);text-align:left;padding:8px;vertical-align:top}
   th{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:12px;font-weight:500;color:var(--muted)}
   td.num,th.num{text-align:right;font-family:"IBM Plex Mono",ui-monospace,monospace}
@@ -88,6 +89,7 @@
   <p>Headless Playwright extraction of the live Hacker News top 30 (rank, title, domain, points, submitter, and comment count), pairing title rows and detail rows in the DOM without fragile XPaths. Pandas enforces strict types before exporting <code>hn_top30.csv</code>, ready to load into PostgreSQL.</p>
   <p class="meta">Verified 2026-11-12: 6/6 pytest tests passing. 30 rows, no nulls or blanks in rank/title, integer types for rank/points/comment count, submitter populated on every row, and no empty values except domain (Ask HN and text posts have none)</p>
   <p><strong>The part that matters:</strong> independent verification caught a defect the first test suite missed. The original submitter selector relied on a CSS class (<code>.hnuser</code>) no longer present on live Hacker News, leaving the submitter column empty. I fixed it with a structural attribute selector (<code>a[href^="user?id="]</code>) and added tests that catch that failure.</p>
+  <div class="tablewrap">
   <table>
     <tr><th class="num">Rank</th><th>Title</th><th>Domain</th><th class="num">Points</th><th>Submitter</th><th class="num">Comments</th></tr>
     <tr><td class="num">1</td><td>Jensen Huang resigns</td><td>apnews.com</td><td class="num">1859</td><td>lldb</td><td class="num">1879</td></tr>
@@ -96,6 +98,7 @@
     <tr><td class="num">4</td><td>Ask HN: Microsoft/Azure Outage?</td><td>none</td><td class="num">99</td><td>nazgulsenpai</td><td class="num">32</td></tr>
     <tr><td class="num">5</td><td>Abandoned Quake 4 expansion finished by modders and now playable</td><td>moddb.com</td><td class="num">165</td><td>klaussilveira</td><td class="num">60</td></tr>
   </table>
+  </div>
   <p>Full files, as run: <a href="hn_top30.csv">hn_top30.csv</a> (30 rows) &middot; <a href="scraper.py">scraper.py</a> &middot; <a href="verify_deliverable.py">verify_deliverable.py</a> (6 tests) &middot; <a href="Proposal-HN-Frontpage-QA.md">client proposal</a></p>
   <p>Run it yourself:</p>
   <pre>python scraper.py
